@@ -1,0 +1,52 @@
+services:
+  sdc:
+    image: bedasoftware/fhir-sdc:1.0.0a7
+    depends_on:
+      devbox-healthcheck:
+        condition: service_healthy
+    links:
+      - devbox
+      - fhirpath_mapping
+    env_file:
+      - ./env/sdc
+    tty: true
+  devbox:
+    image: healthsamurai/aidboxone:stable
+    depends_on:
+      - devbox-db
+    links:
+      - "devbox-db:database"
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./env/aidbox
+      - .env
+    volumes:
+      - ./seeds:/seeds
+  devbox-db:
+    image: "healthsamurai/aidboxdb:13.2"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: devbox
+  devbox-healthcheck:
+    image: curlimages/curl
+    entrypoint: /bin/sleep 10000
+    links:
+      - devbox
+    depends_on:
+      - devbox
+    healthcheck:
+      test: curl --fail http://devbox:8080/health || exit 1
+      interval: 5s
+      timeout: 30s
+      retries: 100
+
+  jute:
+    image: bedasoftware/jute-microservice:latest
+    ports:
+      - "8099:8090"
+  fhirpath_mapping:
+    image: bedasoftware/fhirpath-extract:main
+    ports:
+      - "8091:8090"

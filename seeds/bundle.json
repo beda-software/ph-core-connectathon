@@ -1,0 +1,227 @@
+{
+    "type": "transaction",
+    "entry": [
+        {
+            "request": {
+                "method": "POST",
+                "url": "/Client",
+                "ifNoneExist": "_id=web"
+            },
+            "resource": {
+                "auth": {
+                    "implicit": {
+                        "redirect_uri": "${FHIR_EMR_AUTH_URL}"
+                    }
+                },
+                "first_party": true,
+                "grant_types": [
+                    "implicit"
+                ],
+                "id": "web",
+                "resourceType": "Client"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/Client",
+                "ifNoneExist": "_id=testAuth"
+            },
+            "resource": {
+                "secret": "123456",
+                "grant_types": [
+                    "password"
+                ],
+                "id": "testAuth",
+                "resourceType": "Client"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/AidboxQuery",
+                "ifNoneExist": "_id=provenance-by-source"
+            },
+            "resource": {
+                "query": "SELECT\n  resource || jsonb_build_object('resourceType', 'Provenance', 'id', id)\nAS resource FROM provenance WHERE EXISTS (\n  SELECT 1\n  FROM jsonb_array_elements(resource->'entity') AS entity\n  WHERE entity->'what'->>'uri' LIKE '%' || {{params.source}} || '%'\n  OR\n   (\n    entity->'what'->>'id' LIKE '%' || split_part({{params.source}}, '/', 2) || '%'\n    AND\n    entity->'what'->>'resourceType' LIKE '%' || split_part({{params.source}}, '/', 1) || '%'\n   )\n)",
+                "params": {
+                    "source": {
+                        "type": "string",
+                        "isRequired": true
+                    }
+                },
+                "id": "provenance-by-source",
+                "resourceType": "AidboxQuery"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/AidboxQuery",
+                "ifNoneExist": "_id=provenance-by-target"
+            },
+            "resource": {
+                "query": "select resource || jsonb_build_object('resourceType', 'Provenance', 'id', id) as resource from provenance where array_to_string(knife_extract_text(resource,'[[\"target\",\"uri\"]]'),'') like {{params.target}}",
+                "params": {
+                    "source": {
+                        "type": "string",
+                        "format": "%%%s%%",
+                        "isRequired": true
+                    }
+                },
+                "id": "provenance-by-target",
+                "resourceType": "AidboxQuery"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/AidboxQuery",
+                "ifNoneExist": "_id=clear-patient-observations"
+            },
+            "resource": {
+                "type": "execute",
+                "query": "DELETE FROM \"observation\" WHERE resource#>>'{subject, id}' = {{params.patient}}",
+                "params": {
+                    "patient": {
+                        "type": "string",
+                        "isRequired": true
+                    }
+                },
+                "id": "clear-patient-observations",
+                "resourceType": "AidboxQuery"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/TokenIntrospector",
+                "ifNoneExist": "_id=clear-patient-observations"
+            },
+            "resource": {
+                "jwt": {
+                    "iss": "https://ingest.emr.beda.software",
+                    "secret": "${DATASEQUENCE_JWT_SECRET}"
+                },
+                "type": "jwt",
+                "id": "datasequence",
+                "resourceType": "TokenIntrospector"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/TokenIntrospector",
+                "ifNoneExist": "_id=clear-patient-observations"
+            },
+            "resource": {
+                "jwt": {
+                    "iss": "https://ingest.emr.beda.software",
+                    "secret": "${DATASEQUENCE_JWT_SECRET}"
+                },
+                "type": "jwt",
+                "id": "datasequence",
+                "resourceType": "TokenIntrospector"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/AccessPolicy",
+                "ifNoneExist": "_id=admin-policy"
+            },
+            "resource": {
+                "engine": "allow",
+                "roleName": "admin",
+                "id": "admin-policy",
+                "resourceType": "AccessPolicy"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/AccessPolicy",
+                "ifNoneExist": "_id=practitioner-policy"
+            },
+            "resource": {
+                "engine": "allow",
+                "roleName": "practitioner",
+                "id": "practitioner-policy",
+                "resourceType": "AccessPolicy"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/AccessPolicy",
+                "ifNoneExist": "_id=patient-role-policy"
+            },
+            "resource": {
+                "engine": "allow",
+                "roleName": "patient",
+                "id": "patient-role-policy",
+                "resourceType": "AccessPolicy"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/AccessPolicy",
+                "ifNoneExist": "_id=receptionist-role-policy"
+            },
+            "resource": {
+                "engine": "allow",
+                "roleName": "receptionist",
+                "id": "receptionist-role-policy",
+                "resourceType": "AccessPolicy"
+            }
+        },
+        {
+            "request": {
+                "method": "POST",
+                "url": "/AccessPolicy",
+                "ifNoneExist": "_id=federated-identity-signin"
+            },
+            "resource": {
+                "engine": "json-schema",
+                "schema": {
+                    "required": [
+                        "jwt"
+                    ],
+                    "properties": {
+                        "jwt": {
+                            "required": [
+                                "iss",
+                                "aud",
+                                "sub"
+                            ],
+                            "properties": {
+                                "aud": {
+                                    "type": "array",
+                                    "items": {
+                                        "enum": [
+                                            "software.beda.emr",
+                                            "software.beda.fhirmhealth.fhirmhealth"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "maxItems": 2,
+                                    "minItems": 1
+                                },
+                                "iss": {
+                                    "const": "https://ingest.emr.beda.software"
+                                },
+                                "sub": {
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "id": "federated-identity-signin",
+                "resourceType": "AccessPolicy"
+            }
+        }
+    ]
+}
