@@ -1,0 +1,4 @@
+engine: allow
+roleName: admin
+id: admin-policy
+resourceType: AccessPolicy

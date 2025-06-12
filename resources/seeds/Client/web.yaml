@@ -1,0 +1,8 @@
+auth:
+  implicit:
+    redirect_uri: "http://localhost:3000/auth"
+first_party: true
+grant_types:
+  - implicit
+id: web
+resourceType: Client

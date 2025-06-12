@@ -24,3 +24,9 @@ SDC_IDE_AUTH_URL="http://localhost:3001/auth"
 
 BOX_FEATURES_FTR_PULL_ENABLE=false
 AIDBOX_SDC_ENABLED=false
+
+AIDBOX_FHIR_SCHEMA_VALIDATION=true
+AIDBOX_FHIR_PACKAGES=hl7.fhir.r4b.core#4.3.0
+AIDBOX_TERMINOLOGY_SERVICE_BASE_URL="https://tx.health-samurai.io/fhir"
+
+BOX_INIT_BUNDLE="file:///resources/seeds/initBundle.json"

@@ -22,7 +22,7 @@ services:
       - ./env/aidbox
       - .env
     volumes:
-      - ./seeds:/seeds
+      - ./resources:/resources
   devbox-db:
     image: "healthsamurai/aidboxdb:13.2"
     environment:
@@ -41,7 +41,6 @@ services:
       interval: 5s
       timeout: 30s
       retries: 100
-
   jute:
     image: bedasoftware/jute-microservice:latest
     ports:
@@ -50,3 +49,19 @@ services:
     image: bedasoftware/fhirpath-extract:main
     ports:
       - "8091:8090"
+  build-seeds:
+    image: bedasoftware/fhirsnake:latest
+    command:
+      - export
+      - --output
+      - /app/resources/initBundle.json
+    volumes:
+      - ./resources/seeds:/app/resources
+  watch-seeds:
+    image: bedasoftware/fhirsnake:latest
+    command:
+      - watch
+      - --external-fhir-server-url
+      - http://root:secret@devbox:8080
+    volumes:
+      - ./resources/seeds:/app/resources
