@@ -1,0 +1,22 @@
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.questionText {
+    font-weight: bold;
+    margin: 0;
+}
+
+.answer {
+    display: block;
+    min-width: 40%;
+    max-width: 40%;
+}
