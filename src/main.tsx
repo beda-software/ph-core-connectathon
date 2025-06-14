@@ -17,7 +17,7 @@ import '@beda.software/emr/dist/style.css';
 // Use you https://github.com/beda-software/fhir-emr/blob/master/src/theme/ThemeProvider.tsx as example
 import { Route } from 'react-router-dom';
 
-import { App, EncounterList, PatientList, PractitionerList } from '@beda.software/emr/containers';
+import { App, EncounterList, PractitionerList } from '@beda.software/emr/containers';
 import { ValueSetExpandProvider } from '@beda.software/emr/contexts';
 import { MenuLayout } from '@beda.software/emr/dist/components/BaseLayout/Sidebar/SidebarTop/context';
 import { PatientDashboardProvider } from '@beda.software/emr/dist/components/Dashboard/contexts';
@@ -36,7 +36,15 @@ import { ThemeProvider } from '@beda.software/emr/theme';
 import { matchCurrentUserRole, Role } from '@beda.software/emr/utils';
 import { isSuccess } from '@beda.software/remote-data';
 
+import { PatientUberList } from './containers/PatientsUberList';
 import { dynamicActivate, getCurrentLocale } from './services/i18n';
+import { EncountersUberList } from './containers/EncountersUberList';
+import { PractitionersUberList } from './containers/PractitionersUberList ';
+import { OrganizationsUberList } from './containers/OrganizationsUberList';
+import { ProceduresUberList } from './containers/ProceduresUberList';
+import { ImmunizationsUberList } from './containers/ImmunizationsUberList ';
+import { ObservationsUberList } from './containers/ObservationsUberList';
+import { MedicationsUberList } from './containers/MedicationsUberList';
 
 async function expandEMRValueSet(answerValueSet: string | undefined, searchText: string): Promise<Coding[]> {
     if (!answerValueSet) {
@@ -92,14 +100,14 @@ export const AppWithContext = () => {
                             <App
                                 authenticatedRoutes={
                                     <>
-                                        <Route path="/patients-ph" element={<PatientList />} />
-                                        <Route path="/encounters-ph" element={<EncounterList />} />
-                                        <Route path="/practitioners-ph" element={<PractitionerList />} />
-                                        <Route path="/organizations-ph" element={<EncounterList />} />
-                                        <Route path="/immunizations-ph" element={<EncounterList />} />
-                                        <Route path="/observations-ph" element={<EncounterList />} />
-                                        <Route path="/medications-ph" element={<EncounterList />} />
-                                        <Route path="/procedures-ph" element={<EncounterList />} />
+                                        <Route path="/patients-ph" element={<PatientUberList />} />
+                                        <Route path="/encounters-ph" element={<EncountersUberList />} />
+                                        <Route path="/practitioners-ph" element={<PractitionersUberList />} />
+                                        <Route path="/organizations-ph" element={<OrganizationsUberList />} />
+                                        <Route path="/procedures-ph" element={<ProceduresUberList />} />
+                                        <Route path="/immunizations-ph" element={<ImmunizationsUberList />} />
+                                        <Route path="/observations-ph" element={<ObservationsUberList />} />
+                                        <Route path="/medications-ph" element={<MedicationsUberList />} />
                                     </>
                                 }
                             />
