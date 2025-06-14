@@ -1,7 +1,9 @@
 import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import { I18nProvider } from '@lingui/react';
 import { Coding } from 'fhir/r4b';
 import React, { useEffect } from 'react';
+// eslint-disable-next-line import/order
 import { createRoot } from 'react-dom/client';
 
 import '@beda.software/emr/dist/services/initialize';
@@ -13,12 +15,25 @@ import '@beda.software/emr/dist/style.css';
 
 // You can specify your own theme to ajdust color,
 // Use you https://github.com/beda-software/fhir-emr/blob/master/src/theme/ThemeProvider.tsx as example
-import { App } from '@beda.software/emr/containers';
+import { Route } from 'react-router-dom';
+
+import { App, EncounterList, PatientList, PractitionerList } from '@beda.software/emr/containers';
 import { ValueSetExpandProvider } from '@beda.software/emr/contexts';
+import { MenuLayout } from '@beda.software/emr/dist/components/BaseLayout/Sidebar/SidebarTop/context';
 import { PatientDashboardProvider } from '@beda.software/emr/dist/components/Dashboard/contexts';
 import { dashboard } from '@beda.software/emr/dist/dashboard.config';
+import {
+    InvoicesIcon,
+    ServicesIcon,
+    EncountersIcon,
+    PatientsIcon,
+    PractitionersIcon,
+    MedicationsIcon,
+    OrganizationsIcon,
+} from '@beda.software/emr/icons';
 import { expandHealthSamuraiValueSet } from '@beda.software/emr/services';
 import { ThemeProvider } from '@beda.software/emr/theme';
+import { matchCurrentUserRole, Role } from '@beda.software/emr/utils';
 import { isSuccess } from '@beda.software/remote-data';
 
 import { dynamicActivate, getCurrentLocale } from './services/i18n';
@@ -47,7 +62,48 @@ export const AppWithContext = () => {
             <ValueSetExpandProvider.Provider value={expandEMRValueSet}>
                 <PatientDashboardProvider dashboard={dashboard}>
                     <ThemeProvider>
-                        <App />
+                        <MenuLayout.Provider
+                            value={() =>
+                                matchCurrentUserRole({
+                                    [Role.Admin]: () => [
+                                        { label: t`Patients`, path: '/patients-ph', icon: <PatientsIcon /> },
+                                        { label: t`Encounters`, path: '/encounters-ph', icon: <EncountersIcon /> },
+                                        {
+                                            label: t`Practitioners`,
+                                            path: '/practitioners-ph',
+                                            icon: <PractitionersIcon />,
+                                        },
+                                        {
+                                            label: t`Organizations`,
+                                            path: '/organizations-ph',
+                                            icon: <OrganizationsIcon />,
+                                        },
+                                        { label: t`Immunizations`, path: '/immunizations-ph', icon: <InvoicesIcon /> },
+                                        { label: t`Observations`, path: '/observations-ph', icon: <ServicesIcon /> },
+                                        { label: t`Medications`, path: '/medications-ph', icon: <MedicationsIcon /> },
+                                        { label: t`Procedures`, path: '/procedures-ph', icon: <ServicesIcon /> },
+                                    ],
+                                    [Role.Practitioner]: () => [],
+                                    [Role.Patient]: () => [],
+                                    [Role.Receptionist]: () => [],
+                                })
+                            }
+                        >
+                            <App
+                                authenticatedRoutes={
+                                    <>
+                                        <Route path="/patients-ph" element={<PatientList />} />
+                                        <Route path="/encounters-ph" element={<EncounterList />} />
+                                        <Route path="/practitioners-ph" element={<PractitionerList />} />
+                                        <Route path="/organizations-ph" element={<EncounterList />} />
+                                        <Route path="/immunizations-ph" element={<EncounterList />} />
+                                        <Route path="/observations-ph" element={<EncounterList />} />
+                                        <Route path="/medications-ph" element={<EncounterList />} />
+                                        <Route path="/procedures-ph" element={<EncounterList />} />
+                                    </>
+                                }
+                            />
+                        </MenuLayout.Provider>
                     </ThemeProvider>
                 </PatientDashboardProvider>
             </ValueSetExpandProvider.Provider>
