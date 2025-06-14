@@ -1,0 +1,46 @@
+subjectType:
+  - Patient
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+name: medication-create-connectathon
+item:
+  - text: Patient
+    type: reference
+    linkId: patient
+    required: true
+    extension:
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
+        extension:
+          - url: path
+            valueString: >-
+              name.given.first() + ' ' + name.family
+          - url: forDisplay
+            valueBoolean: true
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
+        valueExpression:
+          language: application/x-fhir-query
+          expression: Patient
+      - url: >-
+          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: Patient
+  - text: Medication Code
+    type: string
+    linkId: code
+    required: true
+  - text: Medication Status
+    type: choice
+    linkId: status
+    required: true
+    answerValueSet: http://hl7.org/fhir/ValueSet/medication-status
+resourceType: Questionnaire
+title: Medication create PH
+# extension:
+#   - url: http://beda.software/fhir-extensions/questionnaire-mapper
+#     valueReference:
+#       reference: Mapping/medication-create-connectathon
+status: active
+id: medication-create-connectathon
+url: medication-create

@@ -21,7 +21,7 @@ export function MedicationsUberList() {
             ]}
             getRecordActions={(record) => [navigationAction('Open', `/`)]}
             getHeaderActions={() => [
-                questionnaireAction(<Trans>Create medication</Trans>, 'medication-create', {
+                questionnaireAction(<Trans>Create medication</Trans>, 'medication-create-connectathon', {
                     icon: <PlusOutlined />,
                 }),
             ]}

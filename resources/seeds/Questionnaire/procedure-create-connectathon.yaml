@@ -1,38 +1,66 @@
-id: procedure-create-connectathon
-resourceType: Questionnaire
-name: procedure-create-connectathon
-title: Procedure create PH
-url: procedure-create
-status: active
 subjectType:
   - Patient
-# mapping:
-#   - id: procedure-create
-#     resourceType: Mapping
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+name: procedure-create-connectathon
 item:
-  - linkId: code
-    text: Procedure Code
+  - text: Patient
+    type: reference
+    linkId: patient
+    extension:
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
+        extension:
+          - url: path
+            valueString: >-
+              name.given.first() + ' ' + name.family
+          - url: forDisplay
+            valueBoolean: true
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
+        valueExpression:
+          language: application/x-fhir-query
+          expression: Patient
+      - url: >-
+          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: Patient
+  - text: Procedure Code
     type: choice
+    linkId: code
     answerValueSet: http://hl7.org/fhir/ValueSet/procedure-code
-  - linkId: status
-    text: Procedure Status
+  - text: Procedure Status
     type: choice
+    linkId: status
     required: true
     answerValueSet: http://hl7.org/fhir/ValueSet/event-status
-  - linkId: subject
-    text: Subject (Patient)
+  - text: Encounter
     type: reference
+    linkId: encounter
     required: true
     extension:
-      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
-        valueCode: Patient
-  - linkId: encounter
-    text: Encounter
-    type: reference
-    required: true
-    extension:
-      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
+        extension:
+          - url: path
+            valueString: >-
+              id
+          - url: forDisplay
+            valueBoolean: true
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
+        valueExpression:
+          language: application/x-fhir-query
+          expression: Encounter
+      - url: >-
+          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
         valueCode: Encounter
-# meta:
-#   profile:
-#     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+resourceType: Questionnaire
+title: Procedure create PH
+# extension:
+#   - url: http://beda.software/fhir-extensions/questionnaire-mapper
+#     valueReference:
+#       reference: Mapping/procedure-create-connectathon
+status: active
+id: procedure-create-connectathon
+url: procedure-create

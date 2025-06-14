@@ -1,133 +1,182 @@
-id: immunization-create-connectathon
-name: immunization-create-connectathon
-title: Immunization create PH
-url: immunization-create
-resourceType: Questionnaire
-status: active
 subjectType:
   - Patient
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+name: immunization-create-connectathon
 item:
-  - linkId: note
-    text: Note
-    type: text
-  - linkId: status
-    text: Status
+  - text: Patient
+    type: reference
+    linkId: patient
+    required: true
+    extension:
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
+        extension:
+          - url: path
+            valueString: >-
+              name.given.first() + ' ' + name.family
+          - url: forDisplay
+            valueBoolean: true
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
+        valueExpression:
+          language: application/x-fhir-query
+          expression: Patient
+      - url: >-
+          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: Patient
+  - text: Status
     type: choice
+    linkId: status
     required: true
     answerOption:
-      - value:
-          Coding:
-            system: http://hl7.org/fhir/event-status
-            code: completed
-            display: Completed
-      - value:
-          Coding:
-            system: http://hl7.org/fhir/event-status
-            code: entered-in-error
-            display: Entered in error
-      - value:
-          Coding:
-            system: http://hl7.org/fhir/event-status
-            code: not-done
-            display: Not Done
-  - linkId: performer
-    text: Performer (Practitioner)
+      - valueCoding:
+          code: completed
+          system: http://hl7.org/fhir/event-status
+          display: Completed
+      - valueCoding:
+          code: entered-in-error
+          system: http://hl7.org/fhir/event-status
+          display: Entered in error
+      - valueCoding:
+          code: not-done
+          system: http://hl7.org/fhir/event-status
+          display: Not Done
+  - text: Performer (Practitioner)
     type: reference
+    linkId: performer
     extension:
-      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
-        valueCode: Practitioner
-  - linkId: performer-function
-    text: Performer Function
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
+        extension:
+          - url: path
+            valueString: >-
+              practitioner.resource.name.given.first() + ' ' +
+              practitioner.resource.name.family
+          - url: forDisplay
+            valueBoolean: true
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
+        valueExpression:
+          language: application/x-fhir-query
+          expression: PractitionerRole?_assoc=practitioner
+      - url: >-
+          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: PractitionerRole
+  - text: Performer Function
     type: choice
+    linkId: performer-function
     answerValueSet: http://hl7.org/fhir/ValueSet/immunization-function
-  - linkId: vaccine-code
-    text: Vaccine Code
+  - text: Vaccine Code
     type: choice
+    linkId: vaccine-code
     required: true
     answerValueSet: http://hl7.org/fhir/ValueSet/vaccine-code
-  - linkId: dose-quantity
-    text: Dose Quantity
+  - text: Dose Quantity
     type: quantity
-    required: true
-    unitOption:
-      - code: mg
-        system: http://unitsofmeasurement.org
-        display: mg
-  - linkId: encounter
-    text: Encounter
-    type: reference
+    linkId: dose-quantity
     required: true
     extension:
-      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-unitOption
+        valueCoding:
+          code: mg
+          system: http://unitsofmeasurement.org
+          display: mg
+  - text: Encounter
+    type: reference
+    linkId: encounter
+    required: true
+    extension:
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
+        extension:
+          - url: path
+            valueString: >-
+              id
+          - url: forDisplay
+            valueBoolean: true
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
+        valueExpression:
+          language: application/x-fhir-query
+          expression: Encounter
+      - url: >-
+          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
         valueCode: Encounter
-  - linkId: expiration-date
-    text: Expiration Date
+  - text: Expiration Date
     type: date
-  - linkId: funding-source
-    text: Funding Source
+    linkId: expiration-date
+  - text: Funding Source
     type: choice
+    linkId: funding-source
     answerValueSet: http://hl7.org/fhir/ValueSet/immunization-funding-source
-  - linkId: is-subpotent
-    text: Is Subpotent?
+  - text: Is Subpotent?
     type: choice
-    itemControl:
-      coding:
-        - code: inline-choice
+    linkId: is-subpotent
+    extension:
+      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl
+        valueCodeableConcept:
+          coding:
+            - code: inline-choice
+      - url: >-
+          https://emr-core.beda.software/StructureDefinition/inline-choice-direction
+        valueString: horizontal
     answerOption:
-      - value:
-          Coding:
-            code: "yes"
-            display: "Yes"
-      - value:
-          Coding:
-            code: "no"
-            display: "No"
-    inlineChoiceDirection: horizontal
-  - linkId: lot-number
-    text: Lot Number
+      - valueCoding:
+          code: "yes"
+          display: "Yes"
+      - valueCoding:
+          code: "no"
+          display: "No"
+  - text: Lot Number
     type: string
-  - linkId: occurrence-date
-    text: Occurrence Date
+    linkId: lot-number
+  - text: Occurrence Date
     type: date
-    required: true
-    # initialExpression:
-    #   language: text/fhirpath
-    #   expression: now()
-  - linkId: patient
-    text: Patient
-    type: reference
+    linkId: occurrence-date
     required: true
     extension:
-      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
-        valueCode: Patient
-  - linkId: primary-source
-    text: Primary Source
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression
+        valueExpression:
+          language: text/fhirpath
+          expression: now()
+  - text: Primary Source
     type: choice
-    itemControl:
-      coding:
-        - code: inline-choice
+    linkId: primary-source
+    extension:
+      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl
+        valueCodeableConcept:
+          coding:
+            - code: inline-choice
+      - url: >-
+          https://emr-core.beda.software/StructureDefinition/inline-choice-direction
+        valueString: horizontal
     answerOption:
-      - value:
-          Coding:
-            code: "yes"
-            display: "Yes"
-      - value:
-          Coding:
-            code: "no"
-            display: "No"
-    inlineChoiceDirection: horizontal
-  - linkId: route
-    text: Route
+      - valueCoding:
+          code: "yes"
+          display: "Yes"
+      - valueCoding:
+          code: "no"
+          display: "No"
+  - text: Route
     type: choice
+    linkId: route
     answerValueSet: http://hl7.org/fhir/ValueSet/immunization-route
-  - linkId: site
-    text: Site
+  - text: Site
     type: choice
+    linkId: site
     answerValueSet: http://hl7.org/fhir/ValueSet/immunization-site
+  - text: Note
+    type: text
+    linkId: note
+resourceType: Questionnaire
+title: Immunization create PH
 # extension:
 #   - url: http://beda.software/fhir-extensions/questionnaire-mapper
 #     valueReference:
-#       reference: Mapping/immunization-create
-# meta:
-#   profile:
-#     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+#       reference: Mapping/immunization-create-connectathon
+status: active
+id: immunization-create-connectathon
+url: immunization-create

@@ -63,7 +63,9 @@ export function ProceduresUberList() {
             ]}
             getRecordActions={(record) => [navigationAction('Open', `/`)]}
             getHeaderActions={() => [
-                questionnaireAction(<Trans>Create procedure</Trans>, 'procedure-create', { icon: <PlusOutlined /> }),
+                questionnaireAction(<Trans>Create procedure</Trans>, 'procedure-create-connectathon', {
+                    icon: <PlusOutlined />,
+                }),
             ]}
             getBatchActions={() => [questionnaireAction(<Trans>Finish procedures</Trans>, '')]}
             getReportColumns={(bundle) => [

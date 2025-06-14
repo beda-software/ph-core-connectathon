@@ -57,7 +57,7 @@ export function ImmunizationsUberList() {
             ]}
             getRecordActions={(record) => [navigationAction('Open', `/`)]}
             getHeaderActions={() => [
-                questionnaireAction(<Trans>Create immunization</Trans>, 'immunization-create', {
+                questionnaireAction(<Trans>Create immunization</Trans>, 'immunization-create-connectathon', {
                     icon: <PlusOutlined />,
                 }),
             ]}

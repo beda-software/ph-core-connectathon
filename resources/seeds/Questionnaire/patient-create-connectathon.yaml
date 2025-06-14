@@ -1,122 +1,123 @@
-id: patient-create-connectathon
-resourceType: Questionnaire
-name: patient-create-connectathon
-title: Patient create PH
-url: patient-create
-status: active
 subjectType:
   - Patient
-# mapping:
-#   - id: patient-create-extract
-#     resourceType: Mapping
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+name: patient-create-connectathon
 item:
-  - linkId: first-name
-    text: First name
+  - text: First name
     type: string
-  - linkId: last-name
-    text: Last name
+    linkId: first-name
+  - text: Last name
     type: string
-  - linkId: gender
-    text: Gender
+    linkId: last-name
+  - text: Gender
     type: choice
-    answerValueSet: http://hl7.org/fhir/administrative-gender
-  - linkId: birth-date
-    text: Date of Birth
+    linkId: gender
+    answerValueSet: http://hl7.org/fhir/ValueSet/administrative-gender
+  - text: Date of Birth
     type: date
-  - linkId: nationality-group
-    type: group
-    repeats: true
-    item:
-      - linkId: nationality
-        text: Nationality
+    linkId: birth-date
+  - item:
+      - text: Nationality
         type: choice
+        linkId: nationality
         answerValueSet: http://hl7.org/fhir/ValueSet/iso3166-1-2
-      - linkId: nationality-start
-        text: Start Date
+      - text: Start Date
         type: date
-        # helptext: The date when the individual acquired or declared this nationality.
-      - linkId: nationality-end
-        text: End Date
+        linkId: nationality-start
+      - text: End Date
         type: date
-        # helptext: Leave blank if the nationality is current. Use this field to indicate when the individual stopped holding this nationality.
-  - linkId: religion
-    text: Religion
+        linkId: nationality-end
+    type: group
+    linkId: nationality-group
+    repeats: true
+  - text: Religion
     type: choice
+    linkId: religion
     required: true
     answerValueSet: http://terminology.hl7.org/ValueSet/v3-ReligiousAffiliation
-  - linkId: indigenous
-    text: Are you Indigenous?
+  - text: Are you Indigenous?
     type: choice
-    itemControl:
-      coding:
-        - code: inline-choice
+    linkId: indigenous
+    extension:
+      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl
+        valueCodeableConcept:
+          coding:
+            - code: inline-choice
+      - url: >-
+          https://emr-core.beda.software/StructureDefinition/inline-choice-direction
+        valueString: horizontal
     answerOption:
-      - value:
-          Coding:
-            code: "yes"
-            display: "Yes"
-      - value:
-          Coding:
-            code: "no"
-            display: "No"
-    inlineChoiceDirection: horizontal
-  - linkId: indigenous-group
-    text: Indigenous Group
+      - valueCoding:
+          code: "yes"
+          display: "Yes"
+      - valueCoding:
+          code: "no"
+          display: "No"
+  - text: Indigenous Group
     type: choice
+    linkId: indigenous-group
     required: true
-    answerValueSet: urn://example.com/ph-core/fhir/ValueSet/indigenous-groups
     enableWhen:
-      - answer:
-          Coding:
-            code: "yes"
+      - answerCoding:
+          code: "yes"
         operator: "="
         question: indigenous
-  - linkId: race
-    text: Race
+    answerValueSet: urn://example.com/ph-core/fhir/ValueSet/indigenous-groups
+  - text: Race
     type: choice
+    linkId: race
     required: true
     answerValueSet: http://terminology.hl7.org/ValueSet/v3-Race
-  - linkId: marital-status
-    text: Marital Status
+  - text: Marital Status
     type: choice
+    linkId: marital-status
     required: true
     answerValueSet: http://hl7.org/fhir/ValueSet/marital-status
-  - linkId: philhealth-id
-    text: Philhealth ID
+  - text: Philhealth ID
     type: string
-  - linkId: address-group
+    linkId: philhealth-id
+  - item:
+      - text: Address Line
+        type: string
+        linkId: address-line
+      - text: Region
+        type: choice
+        linkId: address-region
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/regions
+      - text: Province
+        type: choice
+        linkId: address-province
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/provinces
+      - text: City Municipality
+        type: choice
+        linkId: address-city-municipality
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/cities
+      - text: City
+        type: string
+        linkId: address-city
+      - text: District
+        type: string
+        linkId: address-district
+      - text: Postal Code
+        type: string
+        linkId: address-postal-code
+      - text: Country
+        type: string
+        linkId: address-country
+        initial:
+          - valueCoding:
+              code: PH
     text: Address
     type: group
-    item:
-      - linkId: address-line
-        text: Address Line
-        type: string
-      - linkId: address-region
-        text: Region
-        type: choice
-        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/regions
-      - linkId: address-province
-        text: Province
-        type: choice
-        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/provinces
-      - linkId: address-city-municipality
-        text: City Municipality
-        type: choice
-        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/cities
-      - linkId: address-city
-        text: City
-        type: string
-      - linkId: address-district
-        text: District
-        type: string
-      - linkId: address-postal-code
-        text: Postal Code
-        type: string
-      - linkId: address-country
-        text: Country
-        type: string
-        initial:
-          - valueCode: PH
-# meta:
-#   profile:
-#     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+    linkId: address-group
+resourceType: Questionnaire
+title: Patient create PH
+# extension:
+#   - url: http://beda.software/fhir-extensions/questionnaire-mapper
+#     valueReference:
+#       reference: Mapping/patient-create-extract-connectathon
+status: active
+id: patient-create-connectathon
+url: patient-create

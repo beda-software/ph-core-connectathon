@@ -21,7 +21,7 @@ export function ObservationsUberList() {
             ]}
             getRecordActions={(record) => [navigationAction('Open', `/`)]}
             getHeaderActions={() => [
-                questionnaireAction(<Trans>Create observation</Trans>, 'observation-create', {
+                questionnaireAction(<Trans>Create observation</Trans>, 'observation-create-connectathon', {
                     icon: <PlusOutlined />,
                 }),
             ]}

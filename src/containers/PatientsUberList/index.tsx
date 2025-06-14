@@ -91,7 +91,9 @@ export function PatientUberList() {
                 customAction(<S.LinkButton type="link">Custom action</S.LinkButton>),
             ]}
             getHeaderActions={() => [
-                questionnaireAction(<Trans>Add patient</Trans>, 'patient-create', { icon: <PlusOutlined /> }),
+                questionnaireAction(<Trans>Add patient</Trans>, 'patient-create-connectathon', {
+                    icon: <PlusOutlined />,
+                }),
             ]}
             getBatchActions={() => [questionnaireAction(<Trans>Delete patients</Trans>, 'patients-batch-delete')]}
             getReportColumns={(bundle) => [

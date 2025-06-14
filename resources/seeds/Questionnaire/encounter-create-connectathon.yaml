@@ -1,70 +1,80 @@
-id: encounter-create-connectathon
-resourceType: Questionnaire
-name: encounter-create-connectathon
-title: Encounter create PH
-url: encounter-create
-status: active
 subjectType:
   - Patient
-# mapping:
-#   - id: encounter-create
-#     resourceType: Mapping
-launchContext:
-  - name:
-      code: Patient
-    type:
-      - Patient
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+name: encounter-create-connectathon
 item:
-  - linkId: patientId
-    text: PatientId
-    type: string
-    hidden: true
-    initialExpression:
-      language: text/fhirpath
-      expression: "%Patient.id"
-  - linkId: patientName
-    text: PatientName
-    type: string
-    readOnly: true
-    initialExpression:
-      language: text/fhirpath
-      expression: "%Patient.name.first().given.first() + ' ' + %Patient.name.first().family"
-  - linkId: practitioner-role
-    text: Practitioner
+  - text: Patient
     type: reference
-    referenceResource:
-      - PractitionerRole
+    linkId: patient
+    extension:
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
+        extension:
+          - url: path
+            valueString: >-
+              name.given.first() + ' ' + name.family
+          - url: forDisplay
+            valueBoolean: true
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
+        valueExpression:
+          language: application/x-fhir-query
+          expression: Patient
+      - url: >-
+          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: Patient
+  - text: Practitioner
+    type: reference
+    linkId: practitioner-role
     required: true
-    answerExpression:
-      language: application/x-fhir-query
-      expression: "PractitionerRole?_assoc=practitioner"
-    choiceColumn:
-      - forDisplay: true
-        path: >-
-          practitioner.resource.name.given.first() + ' ' +
-          practitioner.resource.name.family + ' - ' + specialty.first().coding.display
-  - linkId: service
-    text: Service
+    extension:
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
+        extension:
+          - url: path
+            valueString: >-
+              practitioner.resource.name.given.first() + ' ' +
+              practitioner.resource.name.family
+          - url: forDisplay
+            valueBoolean: true
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
+        valueExpression:
+          language: application/x-fhir-query
+          expression: PractitionerRole?_assoc=practitioner
+      - url: >-
+          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: PractitionerRole
+  - text: Service
     type: choice
-    required: true
+    linkId: service
     repeats: false
+    required: true
     answerOption:
-      - value:
-          Coding:
-            system: http://fhir.org/guides/argonaut-scheduling/CodeSystem/visit-type
-            code: consultation
-            display: The first appointment
-      - value:
-          Coding:
-            system: http://fhir.org/guides/argonaut-scheduling/CodeSystem/visit-type
-            code: follow-up
-            display: A follow up visit
-  - linkId: date
-    text: Date
+      - valueCoding:
+          code: consultation
+          system: http://fhir.org/guides/argonaut-scheduling/CodeSystem/visit-type
+          display: The first appointment
+      - valueCoding:
+          code: follow-up
+          system: http://fhir.org/guides/argonaut-scheduling/CodeSystem/visit-type
+          display: A follow up visit
+  - text: Date
     type: dateTime
-    initialExpression:
-      language: text/fhirpath
-      expression: "now()"
-# meta:
-#   profile:
-#     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+    linkId: date
+    extension:
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression
+        valueExpression:
+          language: text/fhirpath
+          expression: now()
+resourceType: Questionnaire
+title: Encounter create PH
+# - url: http://beda.software/fhir-extensions/questionnaire-mapper
+#   valueReference:
+#     reference: Mapping/encounter-create-connectathon
+status: active
+id: encounter-create-connectathon
+url: encounter-create

@@ -37,7 +37,9 @@ export function PractitionersUberList() {
                 customAction(<S.LinkButton type="link">Custom action</S.LinkButton>),
             ]}
             getHeaderActions={() => [
-                questionnaireAction(<Trans>Add practitioner</Trans>, 'practitioner-create', { icon: <PlusOutlined /> }),
+                questionnaireAction(<Trans>Add practitioner</Trans>, 'practitioner-create-connectathon', {
+                    icon: <PlusOutlined />,
+                }),
             ]}
             getBatchActions={() => [
                 questionnaireAction(<Trans>Delete practitioner</Trans>, 'practitioner-batch-delete'),

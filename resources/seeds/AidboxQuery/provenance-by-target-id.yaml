@@ -1,0 +1,12 @@
+query: |-
+  SELECT
+    resource || jsonb_build_object('resourceType', 'Provenance', 'id', id) AS resource
+  FROM provenance WHERE
+    resource @> ('{"target":[{"id":"' || {{params.target}} || '"}]}')::jsonb
+  ORDER BY resource#>>'{recorded}' DESC LIMIT 1
+params:
+  target:
+    type: string
+    isRequired: true
+id: provenance-by-target-id
+resourceType: AidboxQuery

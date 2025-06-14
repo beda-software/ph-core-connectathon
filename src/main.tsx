@@ -36,15 +36,15 @@ import { ThemeProvider } from '@beda.software/emr/theme';
 import { matchCurrentUserRole, Role } from '@beda.software/emr/utils';
 import { isSuccess } from '@beda.software/remote-data';
 
-import { PatientUberList } from './containers/PatientsUberList';
-import { dynamicActivate, getCurrentLocale } from './services/i18n';
 import { EncountersUberList } from './containers/EncountersUberList';
-import { PractitionersUberList } from './containers/PractitionersUberList ';
-import { OrganizationsUberList } from './containers/OrganizationsUberList';
-import { ProceduresUberList } from './containers/ProceduresUberList';
 import { ImmunizationsUberList } from './containers/ImmunizationsUberList ';
-import { ObservationsUberList } from './containers/ObservationsUberList';
 import { MedicationsUberList } from './containers/MedicationsUberList';
+import { ObservationsUberList } from './containers/ObservationsUberList';
+import { OrganizationsUberList } from './containers/OrganizationsUberList';
+import { PatientUberList } from './containers/PatientsUberList';
+import { PractitionersUberList } from './containers/PractitionersUberList ';
+import { ProceduresUberList } from './containers/ProceduresUberList';
+import { dynamicActivate, getCurrentLocale } from './services/i18n';
 
 async function expandEMRValueSet(answerValueSet: string | undefined, searchText: string): Promise<Coding[]> {
     if (!answerValueSet) {

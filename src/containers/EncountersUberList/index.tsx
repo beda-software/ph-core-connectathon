@@ -70,7 +70,9 @@ export function EncountersUberList() {
             ]}
             getRecordActions={(record) => [navigationAction('Open', `/`)]}
             getHeaderActions={() => [
-                questionnaireAction(<Trans>Create encounter</Trans>, 'encounter-create', { icon: <PlusOutlined /> }),
+                questionnaireAction(<Trans>Create encounter</Trans>, 'encounter-create-connectathon', {
+                    icon: <PlusOutlined />,
+                }),
             ]}
             getBatchActions={() => [questionnaireAction(<Trans>Finish encounters</Trans>, '')]}
             getReportColumns={(bundle) => [

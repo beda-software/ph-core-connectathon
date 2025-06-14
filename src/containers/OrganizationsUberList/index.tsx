@@ -38,7 +38,9 @@ export function OrganizationsUberList() {
                 customAction(<S.LinkButton type="link">Custom action</S.LinkButton>),
             ]}
             getHeaderActions={() => [
-                questionnaireAction(<Trans>Add organization</Trans>, 'organization-create', { icon: <PlusOutlined /> }),
+                questionnaireAction(<Trans>Add organization</Trans>, 'organization-create-connectathon', {
+                    icon: <PlusOutlined />,
+                }),
             ]}
             getBatchActions={() => [
                 questionnaireAction(<Trans>Delete organization</Trans>, 'organization-batch-delete'),
