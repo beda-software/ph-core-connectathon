@@ -26,7 +26,7 @@ body:
         name:
           - given:
               - "{{ %firstName }}"
-            family: "{{ %lastNameeee }}"
+            family: "{{ %lastName }}"
         gender: "{{ %gender }}"
         birthDate: "{{ %birthDate }}"
         telecom:
