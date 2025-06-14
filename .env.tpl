@@ -18,5 +18,3 @@ AWS_SECRET_ACCESS_KEY=
 AIDBOX_FHIR_SCHEMA_VALIDATION=true
 AIDBOX_FHIR_PACKAGES=hl7.fhir.r4b.core#4.3.0
 AIDBOX_TERMINOLOGY_SERVICE_BASE_URL="https://tx.health-samurai.io/fhir"
-
-BOX_INIT_BUNDLE="file:///seeds/bundle.json"

@@ -1,0 +1,47 @@
+id: practitioner-create-connectathon
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - firstName: "{{ %QuestionnaireResponse.answers('first-name') }}"
+    - lastName: "{{ %QuestionnaireResponse.answers('last-name') }}"
+    - gender: "{{ %QuestionnaireResponse.answers('gender') }}"
+    - birthDate: "{{ %QuestionnaireResponse.answers('birth-date') }}"
+    - phone: "{{ %QuestionnaireResponse.answers('phone') }}"
+    - email: "{{ %QuestionnaireResponse.answers('email') }}"
+    - addressLine: "{{ %QuestionnaireResponse.answers('address-line') }}"
+    - addressCity: "{{ %QuestionnaireResponse.answers('address-city') }}"
+    - addressState: "{{ %QuestionnaireResponse.answers('address-state') }}"
+    - addressPostalCode: "{{ %QuestionnaireResponse.answers('address-postal-code') }}"
+    - addressCountry: "{{ %QuestionnaireResponse.answers('address-country') }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    - request:
+        method: POST
+        url: /Practitioner
+      resource:
+        resourceType: Practitioner
+        name:
+          - given:
+              - "{{ %firstName }}"
+            family: "{{ %lastNameeee }}"
+        gender: "{{ %gender }}"
+        birthDate: "{{ %birthDate }}"
+        telecom:
+          "{% if %phone.exists() %}":
+            - system: phone
+              value: "{{ %phone }}"
+              use: mobile
+          "{% if %email.exists() %}":
+            - system: email
+              value: "{{ %email }}"
+              use: work
+        address:
+          - line:
+              - "{{ %addressLine }}"
+            city: "{{ %addressCity }}"
+            state: "{{ %addressState }}"
+            postalCode: "{{ %addressPostalCode }}"
+            country: "{{ %addressCountry }}"

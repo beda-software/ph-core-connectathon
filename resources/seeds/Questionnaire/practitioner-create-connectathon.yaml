@@ -59,10 +59,10 @@ item:
     linkId: address-group
 resourceType: Questionnaire
 title: Practitioner create PH
-# extension:
-#   - url: http://beda.software/fhir-extensions/questionnaire-mapper
-#     valueReference:
-#       reference: Mapping/practitioner-create-connectathon
+extension:
+  - url: http://beda.software/fhir-extensions/questionnaire-mapper
+    valueReference:
+      reference: Mapping/practitioner-create-connectathon
 status: active
 id: practitioner-create-connectathon
 url: practitioner-create
