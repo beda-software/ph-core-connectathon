@@ -1,0 +1,74 @@
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+subjectType:
+  - Patient
+status: active
+name: patient-create
+item:
+  - text: Last name
+    type: string
+    linkId: last-name
+    required: true
+    maxLength: 30
+  - text: First name
+    type: string
+    linkId: first-name
+    required: true
+    maxLength: 30
+  - text: Birth date
+    type: date
+    linkId: birth-date
+    required: true
+  - text: Biological gender
+    type: choice
+    linkId: gender
+    required: true
+    extension:
+      - url: http://hl7.org/fhir/StructureDefinition/entryFormat
+        valueString: Select biological gender...
+    answerOption:
+      - valueCoding:
+          code: male
+          system: http://hl7.org/fhir/administrative-gender
+          display: Male
+      - valueCoding:
+          code: female
+          system: http://hl7.org/fhir/administrative-gender
+          display: Female
+
+  - type: choice
+    text: Race
+    linkId: race
+    required: true
+    answerValueSet: "http://terminology.hl7.org/ValueSet/v3-Race"
+
+  - text: Phone number
+    type: string
+    linkId: mobile
+    required: true
+    extension:
+      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl
+        valueCodeableConcept:
+          coding:
+            - code: phoneWidget
+  - text: Email
+    type: string
+    linkId: email
+  - text: ID number
+    type: string
+    linkId: ssn
+    required: true
+  - text: Address
+    type: string
+    linkId: address
+    required: true
+resourceType: Questionnaire
+title: Patient create
+extension:
+  - url: http://beda.software/fhir-extensions/questionnaire-mapper
+    valueReference:
+      reference: Mapping/patient-create
+id: patient-create
+url: >-
+  https://aidbox.emr.beda.software/ui/console#/entities/Questionnaire/patient-create
