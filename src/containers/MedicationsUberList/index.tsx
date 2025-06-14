@@ -7,7 +7,7 @@ import { questionnaireAction, navigationAction, ResourceListPage } from '@beda.s
 export function MedicationsUberList() {
     return (
         <ResourceListPage<Medication>
-            headerTitle="Observations"
+            headerTitle="Medications"
             resourceType="Medication"
             getTableColumns={() => [
                 {
