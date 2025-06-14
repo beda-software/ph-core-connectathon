@@ -23,12 +23,11 @@ export type MenuLayoutValue = () => Array<Layout>;
 const defaultMenuLayout: MenuLayoutValue = () =>
     matchCurrentUserRole({
         [Role.Admin]: () => [
-            { label: t`Invoices`, path: '/invoices', icon: <InvoicesIcon /> },
-            { label: t`Services`, path: '/healthcare-services', icon: <ServicesIcon /> },
             { label: t`Encounters`, path: '/encounters', icon: <EncountersIcon /> },
             { label: t`Patients`, path: '/patients', icon: <PatientsIcon /> },
             { label: t`Practitioners`, path: '/practitioners', icon: <PractitionersIcon /> },
-            { label: t`Questionnaires`, path: '/questionnaires', icon: <QuestionnairesIcon /> },
+            { label: t`Organizations`, path: '/organizations', icon: <PractitionersIcon /> },
+            { label: t`Procedures`, path: '/procedures', icon: <ServicesIcon /> },
         ],
         [Role.Practitioner]: () => [
             { label: t`Encounters`, path: '/encounters', icon: <EncountersIcon /> },
