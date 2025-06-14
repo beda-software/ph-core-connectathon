@@ -1,0 +1,64 @@
+id: practitioner-create-connectathon
+resourceType: Questionnaire
+name: practitioner-create-connectathon
+title: Practitioner create PH
+url: practitioner-create
+status: active
+subjectType:
+  - Patient
+# mapping:
+#   - id: practitioner-create
+#     resourceType: Mapping
+item:
+  - linkId: first-name
+    text: First name
+    type: string
+  - linkId: last-name
+    text: Last name
+    type: string
+  - linkId: gender
+    text: Gender
+    type: choice
+    answerValueSet: http://hl7.org/fhir/administrative-gender
+  - linkId: birth-date
+    text: Date of Birth
+    type: date
+  - linkId: phone
+    text: Phone
+    type: string
+    # itemControl:
+    #   coding:
+    #     - code: phoneWidget
+    # extension:
+    #   - url: http://aidbox.io/questionnaire-itemColumnSize
+    #     valueInteger: 6
+    #   - url: http://hl7.org/fhir/StructureDefinition/regex
+    #     valueString: "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$"
+  - linkId: email
+    text: Email
+    type: string
+    # extension:
+    #   - url: http://aidbox.io/questionnaire-itemColumnSize
+    #     valueInteger: 6
+  - linkId: address-group
+    text: Address
+    type: group
+    item:
+      - linkId: address-line
+        text: Address Line
+        type: string
+      - linkId: address-city
+        text: City
+        type: string
+      - linkId: address-state
+        text: State
+        type: string
+      - linkId: address-postal-code
+        text: Postal Code
+        type: string
+      - linkId: address-country
+        text: Country
+        type: string
+# meta:
+#   profile:
+#     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire

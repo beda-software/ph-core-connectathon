@@ -1,0 +1,80 @@
+id: organization-create-connectathon
+resourceType: Questionnaire
+name: organization-create-connectathon
+title: Organization create PH
+url: organization-create
+status: active
+subjectType:
+  - Patient
+# mapping:
+#   - id: organization-create
+#     resourceType: Mapping
+item:
+  - linkId: organization-name
+    text: Name
+    type: string
+  - linkId: doh-fhud-code
+    text: DOH-FHUD Code
+    type: string
+  - linkId: address-group
+    text: Address
+    type: group
+    item:
+      - linkId: address-line
+        text: Address Line
+        type: string
+        required: true
+      - linkId: address-region
+        text: Region
+        type: choice
+        required: true
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/regions
+      - linkId: address-city
+        text: City
+        type: string
+        required: true
+      - linkId: address-state
+        text: State
+        type: string
+        required: true
+      - linkId: address-postal-code
+        text: Postal Code
+        type: string
+        required: true
+      - linkId: address-country
+        text: Country
+        type: string
+        required: true
+  - linkId: contact
+    text: Contact Person
+    type: group
+    item:
+      - linkId: contact-name
+        text: Name
+        type: string
+      - linkId: contact-phone
+        text: Phone
+        type: string
+        # itemControl:
+        #   coding:
+        #     - code: phoneWidget
+        # extension:
+        #   - url: http://aidbox.io/questionnaire-itemColumnSize
+        #     valueInteger: 6
+        #   - url: http://hl7.org/fhir/StructureDefinition/regex
+        #     valueString: "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$"
+      - linkId: contact-address-line
+        text: Address Line
+        type: string
+      - linkId: contact-address-city
+        text: City
+        type: string
+      - linkId: contact-address-state
+        text: State
+        type: string
+      - linkId: contact-address-postal-code
+        text: Postal Code
+        type: string
+# meta:
+#   profile:
+#     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire

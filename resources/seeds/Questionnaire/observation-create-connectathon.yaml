@@ -1,0 +1,146 @@
+id: observation-create-connectathon
+name: observation-create-connectathon
+title: Observation create PH
+url: observation-create
+resourceType: Questionnaire
+status: active
+subjectType:
+  - Patient
+# mapping:
+#   - id: observation-create
+#     resourceType: Mapping
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+item:
+  - linkId: patientId
+    text: PatientId
+    type: string
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.id"
+  - linkId: patientName
+    text: PatientName
+    type: string
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.name.first().given.first() + ' ' + %Patient.name.first().family"
+  - linkId: height
+    type: quantity
+    text: Height
+    unit:
+      code: cm
+      system: http://unitsofmeasure.org
+      display: cm
+  - linkId: weight
+    type: quantity
+    text: Weight
+    unit:
+      code: kg
+      system: http://unitsofmeasure.org
+      display: kg
+  - linkId: temperature
+    type: quantity
+    text: Temperature
+    unit:
+      code: Celsius
+      system: http://unitsofmeasure.org
+      display: Celsius
+  - linkId: oxygen-saturation
+    type: quantity
+    text: Oxygen saturation
+    unit:
+      code: "%"
+      system: http://unitsofmeasure.org
+      display: "%"
+  - linkId: pulse-rate
+    type: quantity
+    text: Pulse rate
+    unit:
+      code: bpm
+      system: http://unitsofmeasure.org
+      display: bpm
+  - linkId: respiratory-rate
+    type: quantity
+    text: Respiratory Rate
+    unit:
+      code: bpm
+      system: http://unitsofmeasure.org
+      display: bpm
+  - linkId: blood-pressure
+    text: Blood Pressure
+    type: group
+    item:
+      - type: group
+        linkId: blood-pressure-systolic-diastolic
+        itemControl:
+          coding:
+            - code: blood-pressure
+        item:
+          - type: quantity
+            text: BP systolic
+            linkId: blood-pressure-systolic
+            unit:
+              code: mmHg
+              system: http://unitsofmeasure.org
+              display: mmHg
+          - type: quantity
+            text: BP diastolic
+            linkId: blood-pressure-diastolic
+            unit:
+              code: mmHg
+              system: http://unitsofmeasure.org
+              display: mmHg
+      - linkId: blood-pressure-positions
+        text: Positions
+        type: choice
+        itemControl:
+          coding:
+            - code: inline-choice
+        answerOption:
+          - value:
+              Coding:
+                code: sitting
+                display: Sitting
+          - value:
+              Coding:
+                code: lying
+                display: Lying
+          - value:
+              Coding:
+                code: standing
+                display: Standing
+      - linkId: blood-pressure-arm
+        text: Arm
+        type: choice
+        itemControl:
+          coding:
+            - code: inline-choice
+        answerOption:
+          - value:
+              Coding:
+                code: biceps-left
+                display: Biceps left
+          - value:
+              Coding:
+                code: biceps-right
+                display: Biceps right
+  - linkId: bmi
+    text: BMI
+    required: true
+    type: quantity
+    readOnly: true
+    unit:
+      code: kg/m2
+      system: http://unitsofmeasure.org
+      display: kg/m2
+    calculatedExpression:
+      language: text/fhirpath
+      expression: "(%QuestionnaireResponse.item.where(linkId='weight').answer.valueQuantity.value / ((%QuestionnaireResponse.item.where(linkId='height').answer.valueQuantity.value / 100) * (%QuestionnaireResponse.item.where(linkId='height').answer.valueQuantity.value / 100))).round(2)"
+# meta:
+#   profile:
+#     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire

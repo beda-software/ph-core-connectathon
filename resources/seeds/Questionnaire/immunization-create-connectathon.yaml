@@ -1,0 +1,133 @@
+id: immunization-create-connectathon
+name: immunization-create-connectathon
+title: Immunization create PH
+url: immunization-create
+resourceType: Questionnaire
+status: active
+subjectType:
+  - Patient
+item:
+  - linkId: note
+    text: Note
+    type: text
+  - linkId: status
+    text: Status
+    type: choice
+    required: true
+    answerOption:
+      - value:
+          Coding:
+            system: http://hl7.org/fhir/event-status
+            code: completed
+            display: Completed
+      - value:
+          Coding:
+            system: http://hl7.org/fhir/event-status
+            code: entered-in-error
+            display: Entered in error
+      - value:
+          Coding:
+            system: http://hl7.org/fhir/event-status
+            code: not-done
+            display: Not Done
+  - linkId: performer
+    text: Performer (Practitioner)
+    type: reference
+    extension:
+      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: Practitioner
+  - linkId: performer-function
+    text: Performer Function
+    type: choice
+    answerValueSet: http://hl7.org/fhir/ValueSet/immunization-function
+  - linkId: vaccine-code
+    text: Vaccine Code
+    type: choice
+    required: true
+    answerValueSet: http://hl7.org/fhir/ValueSet/vaccine-code
+  - linkId: dose-quantity
+    text: Dose Quantity
+    type: quantity
+    required: true
+    unitOption:
+      - code: mg
+        system: http://unitsofmeasurement.org
+        display: mg
+  - linkId: encounter
+    text: Encounter
+    type: reference
+    required: true
+    extension:
+      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: Encounter
+  - linkId: expiration-date
+    text: Expiration Date
+    type: date
+  - linkId: funding-source
+    text: Funding Source
+    type: choice
+    answerValueSet: http://hl7.org/fhir/ValueSet/immunization-funding-source
+  - linkId: is-subpotent
+    text: Is Subpotent?
+    type: choice
+    itemControl:
+      coding:
+        - code: inline-choice
+    answerOption:
+      - value:
+          Coding:
+            code: "yes"
+            display: "Yes"
+      - value:
+          Coding:
+            code: "no"
+            display: "No"
+    inlineChoiceDirection: horizontal
+  - linkId: lot-number
+    text: Lot Number
+    type: string
+  - linkId: occurrence-date
+    text: Occurrence Date
+    type: date
+    required: true
+    # initialExpression:
+    #   language: text/fhirpath
+    #   expression: now()
+  - linkId: patient
+    text: Patient
+    type: reference
+    required: true
+    extension:
+      - url: http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: Patient
+  - linkId: primary-source
+    text: Primary Source
+    type: choice
+    itemControl:
+      coding:
+        - code: inline-choice
+    answerOption:
+      - value:
+          Coding:
+            code: "yes"
+            display: "Yes"
+      - value:
+          Coding:
+            code: "no"
+            display: "No"
+    inlineChoiceDirection: horizontal
+  - linkId: route
+    text: Route
+    type: choice
+    answerValueSet: http://hl7.org/fhir/ValueSet/immunization-route
+  - linkId: site
+    text: Site
+    type: choice
+    answerValueSet: http://hl7.org/fhir/ValueSet/immunization-site
+# extension:
+#   - url: http://beda.software/fhir-extensions/questionnaire-mapper
+#     valueReference:
+#       reference: Mapping/immunization-create
+# meta:
+#   profile:
+#     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
