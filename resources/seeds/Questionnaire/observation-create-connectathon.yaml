@@ -163,10 +163,10 @@ item:
     linkId: blood-pressure
 resourceType: Questionnaire
 title: Observation create PH
-# extension:
-# - url: http://beda.software/fhir-extensions/questionnaire-mapper
-#   valueReference:
-#     reference: Mapping/observation-create-connectathon
+extension:
+  - url: http://beda.software/fhir-extensions/questionnaire-mapper
+    valueReference:
+      reference: Mapping/observation-create-connectathon
 status: active
 id: observation-create-connectathon
 url: observation-create
