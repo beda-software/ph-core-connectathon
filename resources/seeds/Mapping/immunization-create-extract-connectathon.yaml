@@ -1,0 +1,66 @@
+id: immunization-create-extract-connectathon
+type: FHIRPath
+resourceType: Mapping
+body:
+  "{% assign %}":
+    - patientRef: "{{ %QuestionnaireResponse.answers('patient') }}"
+    - status: "{{ %QuestionnaireResponse.answers('status') }}"
+    - performer: "{{ %QuestionnaireResponse.answers('performer') }}"
+    - performerFunction: "{{ %QuestionnaireResponse.answers('performer-function') }}"
+    - vaccineCode: "{{ %QuestionnaireResponse.answers('vaccine-code') }}"
+    - doseQuantity: "{{ %QuestionnaireResponse.answers('dose-quantity') }}"
+    - encounterRef: "{{ %QuestionnaireResponse.answers('encounter') }}"
+    - expirationDate: "{{ %QuestionnaireResponse.answers('expiration-date') }}"
+    - fundingSource: "{{ %QuestionnaireResponse.answers('funding-source') }}"
+    - isSubpotent: "{{ %QuestionnaireResponse.answers('is-subpotent') }}"
+    - lotNumber: "{{ %QuestionnaireResponse.answers('lot-number') }}"
+    - occurrenceDate: "{{ %QuestionnaireResponse.answers('occurrence-date') }}"
+    - primarySource: "{{ %QuestionnaireResponse.answers('primary-source') }}"
+    - route: "{{ %QuestionnaireResponse.answers('route') }}"
+    - site: "{{ %QuestionnaireResponse.answers('site') }}"
+    - note: "{{ %QuestionnaireResponse.answers('note') }}"
+    - addImmunization:
+        request:
+          url: /Immunization
+          method: POST
+        resource:
+          meta:
+            profile:
+              - "urn://example.com/ph-core/fhir/StructureDefinition/ph-core-immunization"
+          resourceType: Immunization
+          patient: "{{ %patientRef }}"
+          status: "{{ %status.code }}"
+          performer:
+            - actor: "{{ %performer }}"
+              function:
+                coding:
+                  - "{{ %performerFunction }}"
+          vaccineCode:
+            coding:
+              - "{{ %vaccineCode }}"
+          doseQuantity: "{{ %doseQuantity }}"
+          encounter: "{{ %encounterRef }}"
+          expirationDate: "{{ %expirationDate }}"
+          fundingSource:
+            coding:
+              - "{{ %fundingSource }}"
+          isSubpotent:
+            "{% if %isSubpotent.code = 'yes' %}": true
+            "{% else %}": false
+          lotNumber: "{{ %lotNumber }}"
+          occurrenceDateTime: "{{ %occurrenceDate }}"
+          primarySource:
+            "{% if %primarySource.code = 'yes' %}": true
+            "{% else %}": false
+          route:
+            coding:
+              - "{{ %route }}"
+          site:
+            coding:
+              - "{{ %site }}"
+          note:
+            - text: "{{ %note }}"
+  resourceType: Bundle
+  type: transaction
+  entry:
+    - "{{ %addImmunization }}"

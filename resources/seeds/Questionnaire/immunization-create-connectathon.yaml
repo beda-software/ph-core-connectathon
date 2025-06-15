@@ -173,10 +173,10 @@ item:
     linkId: note
 resourceType: Questionnaire
 title: Immunization create PH
-# extension:
-#   - url: http://beda.software/fhir-extensions/questionnaire-mapper
-#     valueReference:
-#       reference: Mapping/immunization-create-connectathon
+extension:
+  - url: https://emr-core.beda.software/StructureDefinition/questionnaire-mapper
+    valueReference:
+      reference: Mapping/immunization-create-extract-connectathon
 status: active
 id: immunization-create-connectathon
 url: immunization-create
