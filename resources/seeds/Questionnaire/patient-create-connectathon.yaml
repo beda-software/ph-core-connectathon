@@ -114,10 +114,10 @@ item:
     linkId: address-group
 resourceType: Questionnaire
 title: Patient create PH
-# extension:
-#   - url: http://beda.software/fhir-extensions/questionnaire-mapper
-#     valueReference:
-#       reference: Mapping/patient-create-extract-connectathon
+extension:
+  - url: https://emr-core.beda.software/StructureDefinition/questionnaire-mapper
+    valueReference:
+      reference: Mapping/patient-create-extract-connectathon
 status: active
 id: patient-create-connectathon
 url: patient-create
