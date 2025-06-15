@@ -28,6 +28,9 @@ body:
           method: POST
         fullUrl: urn:uuid:patient-id
         resource:
+          meta:
+            profile:
+              - "urn://example.com/ph-core/fhir/StructureDefinition/ph-core-patient"
           resourceType: Patient
           active: true
           name:
