@@ -93,7 +93,7 @@ item:
         extension:
           - url: path
             valueString: >-
-              id
+              class.display + ' - ' + period.start.toString().split('.')[0].split('T')[0] + ' ' + period.start.toString().split('.')[0].split('T')[1]
           - url: forDisplay
             valueBoolean: true
       - url: >-
