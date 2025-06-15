@@ -1,10 +1,11 @@
 import type { Dashboard, DashboardInstance } from '@beda.software/emr/dist/components/Dashboard/types';
 import { OverviewCard } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/types';
 import { StandardCardContainerFabric } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/containers/StandardCardContainerFabric/index';
-import { Bundle, Encounter, Immunization, Patient } from 'fhir/r4b';
+import { Bundle, Encounter, Immunization, Observation, Patient } from 'fhir/r4b';
 import { getOrganization, getPractitioner } from '../EncountersUberList';
 import { formatHumanDateTime, formatPeriodDateTime } from '@beda.software/emr/utils';
 import { getPerformers } from '../ImmunizationsUberList ';
+import { getObservationCode, getObservationValue } from '../ObservationsUberList';
 
 function prepareEncounter(
     resources: Encounter[],
@@ -107,6 +108,44 @@ function prepareImmunization(
     };
 }
 
+function prepareObservation(
+    resources: Observation[],
+    bundle: Bundle<Observation>,
+): OverviewCard<Observation> {
+
+    return {
+        title: 'Observation',
+        key: 'observation',
+        icon: <h2></h2>,
+        data: resources,
+        total: bundle.total ?? 0,
+        getKey: (r) => r.id!,
+        columns: [
+            {
+                title: 'Status',
+                key: 'status',
+                render: (resource) => {
+                    return resource.status;
+                },
+            },
+            {
+                title: 'Date',
+                key: 'date',
+                render: (resource) => formatHumanDateTime(resource.effectiveDateTime),
+            },
+            {
+                title: 'Code',
+                key: 'code',
+                render: (resource) => getObservationCode(resource),
+            },
+            {
+                title: 'Value',
+                key: 'value',
+                render: (resource) => getObservationValue(resource),
+            }
+        ],
+    };
+}
 
 const patientDashboardConfig: DashboardInstance = {
     top: [
@@ -130,6 +169,17 @@ const patientDashboardConfig: DashboardInstance = {
             },
             widget: StandardCardContainerFabric(prepareImmunization),
         },
+        {
+            query: {
+                resourceType: 'Observation',
+                search: (patient: Patient) => ({
+                    patient: patient.id,
+                    _count: 7,
+                }),
+            },
+            widget: StandardCardContainerFabric(prepareObservation),
+        },
+ 
     ],
     left: [],
     right: [],
