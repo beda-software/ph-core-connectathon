@@ -7,7 +7,7 @@ import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBa
 import { compileAsFirst, formatPeriodDateTime } from '@beda.software/emr/utils';
 
 export const getPractitioner = compileAsFirst<Encounter, Reference>(
-    "Encounter.participant.individual.where(resourceType='Practitioner').individual",
+    "Encounter.participant.individual",
 );
 export const getPatient = compileAsFirst<Encounter, Reference>('Encounter.subject');
 export const getOrganization = compileAsFirst<Encounter, Reference>('Encounter.serviceProvider');
