@@ -1,0 +1,30 @@
+id: encounter-create-extract-connectathon
+type: FHIRPath
+resourceType: Mapping
+body:
+  "{% assign %}":
+    - patientRef: "{{ %QuestionnaireResponse.answers('patient') }}"
+    - practitionerRoleRef: "{{ %QuestionnaireResponse.answers('practitioner-role') }}"
+    - service: "{{ %QuestionnaireResponse.answers('service') }}"
+    - date: "{{ %QuestionnaireResponse.answers('date') }}"
+    - addEncounter:
+        request:
+          url: /Encounter
+          method: POST
+        fullUrl: urn:uuid:encounter-id
+        resource:
+          meta:
+            profile:
+              - "urn://example.com/ph-core/fhir/StructureDefinition/ph-core-encounter"
+          resourceType: Encounter
+          status: planned
+          class: "{{ %service }}"
+          subject: "{{ %patientRef }}"
+          participant:
+            - individual: "{{ %practitionerRoleRef }}"
+          period:
+            start: "{{ %date }}"
+  resourceType: Bundle
+  type: transaction
+  entry:
+    - "{{ %addEncounter }}"

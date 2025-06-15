@@ -1,0 +1,90 @@
+id: patient-create-extract-connectathon
+type: FHIRPath
+resourceType: Mapping
+body:
+  "{% assign %}":
+    - firstName: "{{ %QuestionnaireResponse.answers('first-name') }}"
+    - lastName: "{{ %QuestionnaireResponse.answers('last-name') }}"
+    - gender: "{{ %QuestionnaireResponse.answers('gender') }}"
+    - birthDate: "{{ %QuestionnaireResponse.answers('birth-date') }}"
+    - nationalityGroup: "{{ %QuestionnaireResponse.answers('nationality-group') }}"
+    - religion: "{{ %QuestionnaireResponse.answers('religion') }}"
+    - indigenous: "{{ %QuestionnaireResponse.answers('indigenous') }}"
+    - indigenousGroup: "{{ %QuestionnaireResponse.answers('indigenous-group') }}"
+    - race: "{{ %QuestionnaireResponse.answers('race') }}"
+    - marital-status: "{{ %QuestionnaireResponse.answers('marital-status') }}"
+    - philhealthId: "{{ %QuestionnaireResponse.answers('philhealth-id') }}"
+    - addressLine: "{{ %QuestionnaireResponse.answers('address-line') }}"
+    - addressRegion: "{{ %QuestionnaireResponse.answers('address-region') }}"
+    - addressProvince: "{{ %QuestionnaireResponse.answers('address-province') }}"
+    - addressCityMunicipality: "{{ %QuestionnaireResponse.answers('address-city-municipality') }}"
+    - addressCity: "{{ %QuestionnaireResponse.answers('address-city') }}"
+    - addressDistrict: "{{ %QuestionnaireResponse.answers('address-district') }}"
+    - addressPostalCode: "{{ %QuestionnaireResponse.answers('address-postal-code') }}"
+    - addressCountry: "{{ %QuestionnaireResponse.answers('address-country') }}"
+    - addPatient:
+        request:
+          url: /Patient
+          method: POST
+        fullUrl: urn:uuid:patient-id
+        resource:
+          meta:
+            profile:
+              - "urn://example.com/ph-core/fhir/StructureDefinition/ph-core-patient"
+          resourceType: Patient
+          active: true
+          name:
+            - given:
+                - "{{ %firstName }}"
+              family: "{{ %lastName }}"
+          gender: "{{ %gender.code }}"
+          birthDate: "{{ %birthDate }}"
+          identifier:
+            - system: "urn://example.com/ph-core/fhir/NamingSystem/philhealth-id-ns"
+              value: "{{ %philhealthId }}"
+          address:
+            - line:
+                - "{{ %addressLine }}"
+              extension:
+                - url: "urn://example.com/ph-core/fhir/StructureDefinition/region"
+                  valueCoding: "{{ %addressRegion }}"
+                - url: "urn://example.com/ph-core/fhir/StructureDefinition/province"
+                  valueCoding: "{{ %addressProvince }}"
+                - url: "urn://example.com/ph-core/fhir/StructureDefinition/city-municipality"
+                  valueCoding: "{{ %addressCityMunicipality }}"
+              city: "{{ %addressCity }}"
+              district: "{{ %addressDistrict }}"
+              postalCode: "{{ %addressPostalCode }}"
+              country: "{{ %addressCountry.code }}"
+          extension:
+            - "{% for nationalityItem in %nationalityGroup %}":
+                - extension:
+                    - url: code
+                      valueCodeableConcept:
+                        coding:
+                          - "{{ %nationalityItem.answers('nationality') }}"
+                    - valuePeriod:
+                        start: "{{ %nationalityItem.answers('nationality-start') }}"
+                        end: "{{ %nationalityItem.answers('nationality-end') }}"
+                      url: period
+                  url: "http://hl7.org/fhir/StructureDefinition/patient-nationality"
+            - url: "http://hl7.org/fhir/StructureDefinition/patient-religion"
+              valueCodeableConcept:
+                coding:
+                  - "{{ %religion }}"
+            - url: "urn://example.com/ph-core/fhir/StructureDefinition/indigenous-people"
+              valueBoolean:
+                "{% if %indigenous.code = 'yes' %}": true
+                "{% else %}": false
+            - url: "urn://example.com/ph-core/fhir/StructureDefinition/indigenous-group"
+              valueCodeableConcept:
+                coding:
+                  - "{{ %indigenousGroup }}"
+            - url: "urn://example.com/ph-core/fhir/StructureDefinition/race"
+              valueCodeableConcept:
+                coding:
+                  - "{{ %race }}"
+  resourceType: Bundle
+  type: transaction
+  entry:
+    - "{{ %addPatient }}"

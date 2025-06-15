@@ -107,7 +107,6 @@ export function EncountersUberList() {
                     icon: <PlusOutlined />,
                 }),
             ]}
-            getBatchActions={() => [questionnaireAction(<Trans>Finish encounters</Trans>, '')]}
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Encounters`,

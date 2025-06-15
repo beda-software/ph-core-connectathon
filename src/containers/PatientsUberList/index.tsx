@@ -93,7 +93,6 @@ export function PatientUberList() {
                     icon: <PlusOutlined />,
                 }),
             ]}
-            getBatchActions={() => [questionnaireAction(<Trans>Delete patients</Trans>, 'patients-batch-delete')]}
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Patients`,

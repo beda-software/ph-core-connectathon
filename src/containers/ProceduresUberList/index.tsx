@@ -12,25 +12,25 @@ export function ProceduresUberList() {
             resourceType="Procedure"
             getTableColumns={() => [
                 {
-                    title: 'Patients',
-
-                    render: (_text: any, { resource }) => {
-                        return resource.subject.display;
-                    },
-                },
-                {
-                    title: 'Procedure',
-
-                    render: (_text: any, { resource }) => {
-                        return resource.code?.coding?.[0]?.display;
-                    },
-                },
-                {
                     title: 'Status',
                     dataIndex: 'status',
                     key: 'status',
                     render: (_text: any, { resource }) => {
                         return resource.status;
+                    },
+                },
+                {
+                    title: 'Code',
+                    key: 'code',
+                    render: (_text: any, { resource }) => {
+                        return resource.code?.text ?? resource.code?.coding?.[0]?.display;
+                    },
+                },
+                {
+                    title: 'Patient',
+                    key: 'patient',
+                    render: (_text: any, { resource }) => {
+                        return resource.subject.display ?? resource.subject.reference;
                     },
                 },
             ]}
@@ -61,13 +61,11 @@ export function ProceduresUberList() {
                     placement: ['table', 'search-bar'],
                 },
             ]}
-            getRecordActions={(record) => [navigationAction('Open', `/`)]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Create procedure</Trans>, 'procedure-create-connectathon', {
                     icon: <PlusOutlined />,
                 }),
             ]}
-            getBatchActions={() => [questionnaireAction(<Trans>Finish procedures</Trans>, '')]}
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Procedures`,

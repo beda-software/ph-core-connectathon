@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { t, Trans } from '@lingui/macro';
 import { Medication } from 'fhir/r4b';
 
-import { questionnaireAction, navigationAction, ResourceListPage } from '@beda.software/emr/components';
+import { questionnaireAction, ResourceListPage } from '@beda.software/emr/components';
 
 export function MedicationsUberList() {
     return (
@@ -18,14 +18,22 @@ export function MedicationsUberList() {
                         return resource.status;
                     },
                 },
+                {
+                    title: 'Code',
+                    dataIndex: 'code',
+                    key: 'code',
+                    render: (_text: any, { resource }) => {
+                        return resource.code?.text;
+                    },
+                },
+
+
             ]}
-            getRecordActions={(record) => [navigationAction('Open', `/`)]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Create medication</Trans>, 'medication-create-connectathon', {
                     icon: <PlusOutlined />,
                 }),
             ]}
-            getBatchActions={() => [questionnaireAction(<Trans>Finish Medication</Trans>, '')]}
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Medication`,

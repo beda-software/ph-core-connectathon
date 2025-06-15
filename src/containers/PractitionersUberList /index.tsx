@@ -31,18 +31,10 @@ export function PractitionersUberList() {
                     placement: ['search-bar', 'table'],
                 },
             ]}
-            getRecordActions={(record) => [
-                navigationAction('Open', `/practitioners/${record.resource.id}`),
-                questionnaireAction('Edit', 'practitioner-edit'),
-                customAction(<S.LinkButton type="link">Custom action</S.LinkButton>),
-            ]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Add practitioner</Trans>, 'practitioner-create-connectathon', {
                     icon: <PlusOutlined />,
                 }),
-            ]}
-            getBatchActions={() => [
-                questionnaireAction(<Trans>Delete practitioner</Trans>, 'practitioner-batch-delete'),
             ]}
             getReportColumns={(bundle) => [
                 {

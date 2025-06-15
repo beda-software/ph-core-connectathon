@@ -72,9 +72,10 @@ item:
           expression: now()
 resourceType: Questionnaire
 title: Encounter create PH
-# - url: http://beda.software/fhir-extensions/questionnaire-mapper
-#   valueReference:
-#     reference: Mapping/encounter-create-connectathon
+extension:
+  - url: https://emr-core.beda.software/StructureDefinition/questionnaire-mapper
+    valueReference:
+      reference: Mapping/encounter-create-extract-connectathon
 status: active
 id: encounter-create-connectathon
 url: encounter-create
