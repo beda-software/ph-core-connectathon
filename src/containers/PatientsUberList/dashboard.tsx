@@ -1,9 +1,10 @@
 import type { Dashboard, DashboardInstance } from '@beda.software/emr/dist/components/Dashboard/types';
 import { OverviewCard } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/types';
 import { StandardCardContainerFabric } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/containers/StandardCardContainerFabric/index';
-import { Bundle, Encounter, Patient } from 'fhir/r4b';
+import { Bundle, Encounter, Immunization, Patient } from 'fhir/r4b';
 import { getOrganization, getPractitioner } from '../EncountersUberList';
-import { formatPeriodDateTime } from '@beda.software/emr/utils';
+import { formatHumanDateTime, formatPeriodDateTime } from '@beda.software/emr/utils';
+import { getPerformers } from '../ImmunizationsUberList ';
 
 function prepareEncounter(
     resources: Encounter[],
@@ -58,6 +59,55 @@ function prepareEncounter(
     };
 }
 
+
+function prepareImmunization(
+    resources: Immunization[],
+    bundle: Bundle<Immunization>,
+): OverviewCard<Immunization> {
+
+    return {
+        title: 'Immunization',
+        key: 'immunization',
+        icon: <h2></h2>,
+        data: resources,
+        total: bundle.total ?? 0,
+        getKey: (r) => r.id!,
+        columns: [
+            {
+                title: 'Status',
+                key: 'status',
+                render: (resource) => {
+                    return resource.status;
+                },
+            },
+            {
+                title: 'Date',
+                key: 'date',
+                width: 250,
+                render: (resource) => formatHumanDateTime(resource.occurrenceDateTime),
+            },
+            {
+                title: 'Vaccine',
+                key: 'vaccine',
+                width: 250,
+                render: (resource) => resource.vaccineCode.text,
+            },
+            {
+                title: 'Performer',
+                key: 'performer',
+                render: (resource) => {
+                    const references = getPerformers(resource);
+                    return references.map(reference =>
+                        reference.display ?? reference.reference
+                    );
+                },
+            },
+
+        ]
+    };
+}
+
+
 const patientDashboardConfig: DashboardInstance = {
     top: [
         {
@@ -70,7 +120,16 @@ const patientDashboardConfig: DashboardInstance = {
             },
             widget: StandardCardContainerFabric(prepareEncounter),
         },
- 
+        {
+            query: {
+                resourceType: 'Immunization',
+                search: (patient: Patient) => ({
+                    patient: patient.id,
+                    _count: 7,
+                }),
+            },
+            widget: StandardCardContainerFabric(prepareImmunization),
+        },
     ],
     left: [],
     right: [],
