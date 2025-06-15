@@ -18,6 +18,16 @@ export function MedicationsUberList() {
                         return resource.status;
                     },
                 },
+                {
+                    title: 'Code',
+                    dataIndex: 'code',
+                    key: 'code',
+                    render: (_text: any, { resource }) => {
+                        return resource.code?.text;
+                    },
+                },
+
+
             ]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Create medication</Trans>, 'medication-create-connectathon', {

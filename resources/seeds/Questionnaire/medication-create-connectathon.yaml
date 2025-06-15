@@ -5,30 +5,11 @@ meta:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 name: medication-create-connectathon
 item:
-  - text: Patient
-    type: reference
-    linkId: patient
-    required: true
-    extension:
-      - url: >-
-          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
-        extension:
-          - url: path
-            valueString: >-
-              name.given.first() + ' ' + name.family
-          - url: forDisplay
-            valueBoolean: true
-      - url: >-
-          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
-        valueExpression:
-          language: application/x-fhir-query
-          expression: Patient
-      - url: >-
-          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
-        valueCode: Patient
   - text: Medication Code
+    #type: choice
     type: string
     linkId: code
+    #answerValueSet: urn://example.com/ph-core/fhir/ValueSet/drugs
     required: true
   - text: Medication Status
     type: choice
