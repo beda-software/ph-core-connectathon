@@ -50,11 +50,6 @@ item:
     readOnly: true
     required: true
     extension:
-      # - url: http://hl7.org/fhir/StructureDefinition/questionnaire-unit
-      #   valueCoding:
-      #     code: kg/m2
-      #     system: http://unitsofmeasure.org
-      #     display: kg/m2
       - url: >-
           http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression
         valueExpression:

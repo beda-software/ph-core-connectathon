@@ -1,0 +1,57 @@
+id: organization-create-connectathon
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - orgName: "{{ %QuestionnaireResponse.answers('organization-name') }}"
+    - dohFhudCode: "{{ %QuestionnaireResponse.answers('doh-fhud-code') }}"
+    - addressLine: "{{ %QuestionnaireResponse.answers('address-line') }}"
+    - addressRegion: "{{ %QuestionnaireResponse.answers('address-region') }}"
+    - addressCity: "{{ %QuestionnaireResponse.answers('address-city') }}"
+    - addressState: "{{ %QuestionnaireResponse.answers('address-state') }}"
+    - addressPostalCode: "{{ %QuestionnaireResponse.answers('address-postal-code') }}"
+    - addressCountry: "{{ %QuestionnaireResponse.answers('address-country') }}"
+    - contactName: "{{ %QuestionnaireResponse.answers('contact-name') }}"
+    - contactPhone: "{{ %QuestionnaireResponse.answers('contact-phone') }}"
+    - contactAddressLine: "{{ %QuestionnaireResponse.answers('contact-address-line') }}"
+    - contactAddressCity: "{{ %QuestionnaireResponse.answers('contact-address-city') }}"
+    - contactAddressState: "{{ %QuestionnaireResponse.answers('contact-address-state') }}"
+    - contactAddressPostalCode: "{{ %QuestionnaireResponse.answers('contact-address-postal-code') }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    - request:
+        method: POST
+        url: /Organization
+      resource:
+        resourceType: Organization
+        name: "{{ %orgName }}"
+        identifier:
+          - system: urn://example.com/ph-core/fhir/NamingSystem/doh-fhud-code-ns
+            value: "{{ %dohFhudCode }}"
+        address:
+          - line:
+              - "{{ %addressLine }}"
+            city: "{{ %addressCity }}"
+            state: "{{ %addressState }}"
+            postalCode: "{{ %addressPostalCode }}"
+            country: "{{ %addressCountry }}"
+            extension:
+              - url: urn://example.com/ph-core/fhir/StructureDefinition/region
+                valueCoding: "{{ %addressRegion }}"
+        contact:
+          - "{% if %contactName.exists() or %contactPhone.exists() or %contactAddressLine.exists() %}":
+              name:
+                text: "{{ %contactName }}"
+              telecom:
+                - "{% if %contactPhone.exists() %}":
+                    system: phone
+                    value: "{{ %contactPhone }}"
+                    use: work
+              address:
+                line:
+                  - "{{ %contactAddressLine }}"
+                city: "{{ %contactAddressCity }}"
+                state: "{{ %contactAddressState }}"
+                postalCode: "{{ %contactAddressPostalCode }}"

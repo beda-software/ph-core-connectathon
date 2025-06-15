@@ -21,23 +21,24 @@ body:
     - request:
         method: POST
         url: /Practitioner
+      fullUrl: "urn:practitioner"
       resource:
         resourceType: Practitioner
         name:
           - given:
               - "{{ %firstName }}"
             family: "{{ %lastName }}"
-        gender: "{{ %gender }}"
+        gender: "{{ %gender.code }}"
         birthDate: "{{ %birthDate }}"
         telecom:
-          "{% if %phone.exists() %}":
-            - system: phone
-              value: "{{ %phone }}"
-              use: mobile
-          "{% if %email.exists() %}":
-            - system: email
-              value: "{{ %email }}"
-              use: work
+          - "{% if %phone.exists() %}":
+              - system: phone
+                value: "{{ %phone }}"
+                use: mobile
+          - "{% if %email.exists() %}":
+              - system: email
+                value: "{{ %email }}"
+                use: work
         address:
           - line:
               - "{{ %addressLine }}"

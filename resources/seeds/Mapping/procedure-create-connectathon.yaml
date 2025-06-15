@@ -1,0 +1,27 @@
+id: procedure-create-connectathon
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - patient: "{{ %QuestionnaireResponse.answers('patient') }}"
+    - code: "{{ %QuestionnaireResponse.answers('code') }}"
+    - status: "{{ %QuestionnaireResponse.answers('status') }}"
+    - encounter: "{{ %QuestionnaireResponse.answers('encounter') }}"
+    - encounterId: "{{ %encounter.reference.replace('Encounter/', '') }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    - request:
+        method: POST
+        url: /Procedure
+      resource:
+        resourceType: Procedure
+        subject:
+          reference: "{{ %patient.reference }}"
+        status: "{{ %status.code }}"
+        code:
+          coding:
+            - "{{ %code }}"
+        encounter:
+          reference: "Encounter/{{ %encounterId }}"

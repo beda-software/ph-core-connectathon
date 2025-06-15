@@ -73,10 +73,10 @@ item:
     linkId: contact
 resourceType: Questionnaire
 title: Organization create PH
-# extension:
-#   - url: http://beda.software/fhir-extensions/questionnaire-mapper
-#     valueReference:
-#       reference: Mapping/organization-create-connectathon
+extension:
+  - url: http://beda.software/fhir-extensions/questionnaire-mapper
+    valueReference:
+      reference: Mapping/organization-create-connectathon
 status: active
 id: organization-create-connectathon
 url: organization-create

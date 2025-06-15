@@ -57,10 +57,10 @@ item:
         valueCode: Encounter
 resourceType: Questionnaire
 title: Procedure create PH
-# extension:
-#   - url: http://beda.software/fhir-extensions/questionnaire-mapper
-#     valueReference:
-#       reference: Mapping/procedure-create-connectathon
+extension:
+  - url: http://beda.software/fhir-extensions/questionnaire-mapper
+    valueReference:
+      reference: Mapping/procedure-create-connectathon
 status: active
 id: procedure-create-connectathon
 url: procedure-create
