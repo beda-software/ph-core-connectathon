@@ -22,8 +22,6 @@ item:
     type: string
     linkId: phone
     extension:
-      - url: http://aidbox.io/questionnaire-itemColumnSize
-        valueInteger: 6
       - url: http://hl7.org/fhir/StructureDefinition/regex
         valueString: >-
           ^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?:
@@ -35,9 +33,6 @@ item:
   - text: Email
     type: string
     linkId: email
-    extension:
-      - url: http://aidbox.io/questionnaire-itemColumnSize
-        valueInteger: 6
   - item:
       - text: Address Line
         type: string
@@ -60,7 +55,7 @@ item:
 resourceType: Questionnaire
 title: Practitioner create PH
 extension:
-  - url: http://beda.software/fhir-extensions/questionnaire-mapper
+  - url: https://emr-core.beda.software/StructureDefinition/questionnaire-mapper
     valueReference:
       reference: Mapping/practitioner-create-connectathon
 status: active
