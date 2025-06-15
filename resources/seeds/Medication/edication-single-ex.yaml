@@ -1,5 +1,11 @@
 resourceType: Medication
 id: medication-single-ex
+status: active
+code:
+  coding:
+    - system: urn://example.com/ph-core/fhir/StructureDefinition/ph-core-medication
+      code: "example-code"
+      display: "Example Medication Code"
 meta:
   profile:
     - "urn://example.com/ph-core/fhir/StructureDefinition/ph-core-medication"

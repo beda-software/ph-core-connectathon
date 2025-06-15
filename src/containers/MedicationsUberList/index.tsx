@@ -23,11 +23,9 @@ export function MedicationsUberList() {
                     dataIndex: 'code',
                     key: 'code',
                     render: (_text: any, { resource }) => {
-                        return resource.code?.text;
+                        return resource.code?.coding?.[0]?.display;
                     },
                 },
-
-
             ]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Create medication</Trans>, 'medication-create-connectathon', {
