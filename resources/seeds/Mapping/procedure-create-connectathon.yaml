@@ -18,9 +18,8 @@ body:
       resource:
         resourceType: Procedure
         status: "{{ %status.code }}"
+        subject: "{{ %patient }}"
         "{% merge %}":
-          - "{% if %patient.exists() %}":
-              subject: "{{ %patient }}"
           - "{% if %code.exists() %}":
               code:
                 coding:

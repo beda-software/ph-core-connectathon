@@ -8,6 +8,7 @@ item:
   - text: Patient
     type: reference
     linkId: patient
+    required: true
     extension:
       - url: >-
           http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
