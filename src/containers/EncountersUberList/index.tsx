@@ -1,10 +1,14 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { t, Trans } from '@lingui/macro';
-import { Encounter } from 'fhir/r4b';
+import { Encounter, Reference } from 'fhir/r4b';
 
 import { questionnaireAction, navigationAction, ResourceListPage } from '@beda.software/emr/components';
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
-import { formatPeriodDateTime } from '@beda.software/emr/utils';
+import { compileAsFirst, formatPeriodDateTime } from '@beda.software/emr/utils';
+
+export const getPractitioner = compileAsFirst<Encounter,Reference>("Encounter.participant.individual.where(resourceType='Practitioner').individual");
+export const getPatient= compileAsFirst<Encounter, Reference>("Encounter.subject");
+export const getOrganization = compileAsFirst<Encounter,Reference>("Encounter.serviceProvider");
 
 export function EncountersUberList() {
     return (
@@ -12,12 +16,6 @@ export function EncountersUberList() {
             headerTitle="Encounters"
             resourceType="Encounter"
             getTableColumns={() => [
-                {
-                    title: 'Practitioner',
-                    dataIndex: 'practitioner',
-                    key: 'practitioner',
-                    render: (_text: any, { resource }) => resource.participant?.[0]?.individual?.display,
-                },
                 {
                     title: 'Status',
                     dataIndex: 'status',
@@ -32,6 +30,42 @@ export function EncountersUberList() {
                     key: 'date',
                     width: 250,
                     render: (_text: any, { resource }) => formatPeriodDateTime(resource.period),
+                },
+                {
+                    title: 'Practitioner',
+                    dataIndex: 'practitioner',
+                    key: 'practitioner',
+                    render: (_text: any, { resource }) => {
+                        const reference = getPractitioner(resource);
+                        if(reference){
+                            return reference.display ?? reference.reference;
+
+                        }
+                    },
+                },
+                {
+                    title: 'Patient',
+                    dataIndex: 'patient',
+                    key: 'patient',
+                    render: (_text: any, { resource }) => {
+                        const reference = getPatient(resource);
+                        if (reference) {
+                            return reference.display ?? reference.reference;
+
+                        }
+                    },
+                },
+                {
+                    title: 'Organization',
+                    dataIndex: 'organization',
+                    key: 'organization',
+                    render: (_text: any, { resource }) => {
+                        const reference = getOrganization(resource);
+                        if (reference) {
+                            return reference.display ?? reference.reference;
+
+                        }
+                    },
                 },
             ]}
             getFilters={() => [
@@ -68,7 +102,6 @@ export function EncountersUberList() {
                     placement: ['table', 'search-bar'],
                 },
             ]}
-            getRecordActions={(record) => [navigationAction('Open', `/`)]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Create encounter</Trans>, 'encounter-create-connectathon', {
                     icon: <PlusOutlined />,

@@ -86,9 +86,7 @@ export function PatientUberList() {
                 },
             ]}
             getRecordActions={(record) => [
-                navigationAction('Open', `/patients/${record.resource.id}`),
-                questionnaireAction('Edit', 'patient-edit'),
-                customAction(<S.LinkButton type="link">Custom action</S.LinkButton>),
+                navigationAction('Open', `/patients-ph/${record.resource.id}`),
             ]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Add patient</Trans>, 'patient-create-connectathon', {
