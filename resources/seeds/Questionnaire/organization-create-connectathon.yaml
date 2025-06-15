@@ -10,67 +10,41 @@ item:
     linkId: organization-name
   - text: DOH-FHUD Code
     type: string
+    required: true
     linkId: doh-fhud-code
-  - item:
-      - text: Address Line
-        type: string
-        linkId: address-line
+  - text: Add address
+    type: boolean
+    linkId: add-address
+
+  - type: group
+    text: Address
+    linkId: address-group
+    enableWhen:
+      - answerBoolean: true
+        operator: "="
+        question: add-address
+    item:
+      - text: Address use
+        type: choice
+        linkId: address-use
         required: true
+        answerValueSet: http://hl7.org/fhir/ValueSet/address-use
       - text: Region
         type: choice
         linkId: address-region
-        required: true
         answerValueSet: urn://example.com/ph-core/fhir/ValueSet/regions
-      - text: City
-        type: string
-        linkId: address-city
-        required: true
-      - text: State
-        type: string
-        linkId: address-state
-        required: true
-      - text: Postal Code
-        type: string
-        linkId: address-postal-code
-        required: true
-      - text: Country
-        type: string
-        linkId: address-country
-        required: true
-    text: Address
-    type: group
-    linkId: address-group
-  - item:
-      - text: Name
-        type: string
-        linkId: contact-name
-      - text: Phone
-        type: string
-        linkId: contact-phone
-        extension:
-          - url: http://hl7.org/fhir/StructureDefinition/regex
-            valueString: >-
-              ^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?:
-              *x(\d+))?\s*$
-          - url: http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl
-            valueCodeableConcept:
-              coding:
-                - code: phoneWidget
-      - text: Address Line
-        type: string
-        linkId: contact-address-line
-      - text: City
-        type: string
-        linkId: contact-address-city
-      - text: State
-        type: string
-        linkId: contact-address-state
-      - text: Postal Code
-        type: string
-        linkId: contact-address-postal-code
-    text: Contact Person
-    type: group
-    linkId: contact
+      - text: Province
+        type: choice
+        linkId: address-province
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/provinces
+      - text: City Municipality
+        type: choice
+        linkId: address-city-municipality
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/cities
+      - text: Barangay
+        type: choice
+        linkId: address-barangay
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/barangays
 resourceType: Questionnaire
 title: Organization create PH
 extension:

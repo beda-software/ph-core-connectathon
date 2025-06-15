@@ -28,7 +28,6 @@ item:
   - text: Practitioner
     type: reference
     linkId: practitioner-role
-    required: true
     extension:
       - url: >-
           http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
@@ -47,20 +46,6 @@ item:
       - url: >-
           http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
         valueCode: PractitionerRole
-  - text: Service
-    type: choice
-    linkId: service
-    repeats: false
-    required: true
-    answerOption:
-      - valueCoding:
-          code: consultation
-          system: http://fhir.org/guides/argonaut-scheduling/CodeSystem/visit-type
-          display: The first appointment
-      - valueCoding:
-          code: follow-up
-          system: http://fhir.org/guides/argonaut-scheduling/CodeSystem/visit-type
-          display: A follow up visit
   - text: Date
     type: dateTime
     linkId: date
@@ -70,6 +55,16 @@ item:
         valueExpression:
           language: text/fhirpath
           expression: now()
+  - text: Status
+    type: choice
+    linkId: status
+    required: true
+    answerValueSet: http://hl7.org/fhir/ValueSet/encounter-status
+  - text: Class
+    type: choice
+    linkId: class
+    required: true
+    answerValueSet: http://terminology.hl7.org/ValueSet/v3-ActEncounterCode
 resourceType: Questionnaire
 title: Encounter create PH
 extension:

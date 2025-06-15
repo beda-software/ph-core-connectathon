@@ -6,9 +6,11 @@ import { questionnaireAction, navigationAction, ResourceListPage } from '@beda.s
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
 import { compileAsFirst, formatPeriodDateTime } from '@beda.software/emr/utils';
 
-export const getPractitioner = compileAsFirst<Encounter,Reference>("Encounter.participant.individual.where(resourceType='Practitioner').individual");
-export const getPatient= compileAsFirst<Encounter, Reference>("Encounter.subject");
-export const getOrganization = compileAsFirst<Encounter,Reference>("Encounter.serviceProvider");
+export const getPractitioner = compileAsFirst<Encounter, Reference>(
+    "Encounter.participant.individual.where(resourceType='Practitioner').individual",
+);
+export const getPatient = compileAsFirst<Encounter, Reference>('Encounter.subject');
+export const getOrganization = compileAsFirst<Encounter, Reference>('Encounter.serviceProvider');
 
 export function EncountersUberList() {
     return (
@@ -25,6 +27,14 @@ export function EncountersUberList() {
                     },
                 },
                 {
+                    title: 'Class',
+                    dataIndex: 'class',
+                    key: 'class',
+                    render: (_text: any, { resource }) => {
+                        return resource.class.display;
+                    },
+                },
+                {
                     title: 'Date',
                     dataIndex: 'date',
                     key: 'date',
@@ -37,9 +47,8 @@ export function EncountersUberList() {
                     key: 'practitioner',
                     render: (_text: any, { resource }) => {
                         const reference = getPractitioner(resource);
-                        if(reference){
+                        if (reference) {
                             return reference.display ?? reference.reference;
-
                         }
                     },
                 },
@@ -51,7 +60,6 @@ export function EncountersUberList() {
                         const reference = getPatient(resource);
                         if (reference) {
                             return reference.display ?? reference.reference;
-
                         }
                     },
                 },
@@ -63,7 +71,6 @@ export function EncountersUberList() {
                         const reference = getOrganization(resource);
                         if (reference) {
                             return reference.display ?? reference.reference;
-
                         }
                     },
                 },

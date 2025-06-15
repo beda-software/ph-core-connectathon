@@ -2,10 +2,9 @@ import { PlusOutlined } from '@ant-design/icons';
 import { t, Trans } from '@lingui/macro';
 import { Organization } from 'fhir/r4b';
 
-import { customAction, questionnaireAction, navigationAction, ResourceListPage } from '@beda.software/emr/components';
+import { questionnaireAction, ResourceListPage } from '@beda.software/emr/components';
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
-
-import { S } from './styles';
+import { formatHumanDateTime } from '@beda.software/emr/utils';
 
 export function OrganizationsUberList() {
     return (
@@ -19,6 +18,15 @@ export function OrganizationsUberList() {
                     key: 'name',
                     render: (_text, { resource }) => {
                         return resource.name;
+                    },
+                    width: 300,
+                },
+                {
+                    title: <Trans>Date</Trans>,
+                    dataIndex: 'date',
+                    key: 'date',
+                    render: (_text, { resource }) => {
+                        return formatHumanDateTime(resource.meta?.lastUpdated);
                     },
                     width: 300,
                 },

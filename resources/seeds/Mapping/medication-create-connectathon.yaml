@@ -14,9 +14,10 @@ body:
         url: /Medication
       resource:
         resourceType: Medication
-        code:
-          coding:
-            - code: "{{ %medication }}"
-              display: "{{ %medication }}"
-              system: urn://example.com/ph-core/fhir/StructureDefinition/ph-core-medication
+        "{% if %medication.exists() %}":
+          code:
+            coding:
+              - code: "{{ %medication }}"
+                display: "{{ %medication }}"
+                system: urn://example.com/ph-core/fhir/StructureDefinition/ph-core-medication
         status: "{{ %status.code }}"

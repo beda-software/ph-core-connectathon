@@ -8,7 +8,6 @@ item:
   - text: Medication
     type: string
     linkId: medication
-    required: true
   - text: Medication Status
     type: choice
     linkId: status

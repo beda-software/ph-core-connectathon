@@ -36,6 +36,7 @@ body:
           subject:
             reference: "Patient/{{ %patientId }}"
             display: "{{ %patientName }}"
+          effectiveDateTime: "{{ now() }}"
           valueQuantity:
             value: "{{ %temperature.value }}"
             unit: celsius
@@ -62,6 +63,7 @@ body:
               coding:
                 - "{{ %bloodPressureArm }}"
                 - "{{ %bloodPressurePosition }}"
+          effectiveDateTime: "{{ now() }}"
           component:
             - code:
                 coding:
@@ -99,6 +101,7 @@ body:
           subject:
             reference: "Patient/{{ %patientId }}"
             display: "{{ %patientName }}"
+          effectiveDateTime: "{{ now() }}"
           valueQuantity:
             value: "{{ %pulseRate.value }}"
             unit: bpm
@@ -120,6 +123,7 @@ body:
           subject:
             reference: "Patient/{{ %patientId }}"
             display: "{{ %patientName }}"
+          effectiveDateTime: "{{ now() }}"
           valueQuantity:
             value: "{{ %respiratoryRate.value }}"
             unit: bpm
@@ -141,6 +145,7 @@ body:
           subject:
             reference: "Patient/{{ %patientId }}"
             display: "{{ %patientName }}"
+          effectiveDateTime: "{{ now() }}"
           valueQuantity:
             value: "{{ %oxygenSaturation.value }}"
             unit: "%"
@@ -162,6 +167,7 @@ body:
           subject:
             reference: "Patient/{{ %patientId }}"
             display: "{{ %patientName }}"
+          effectiveDateTime: "{{ now() }}"
           valueQuantity:
             value: "{{ %height.value }}"
             unit: cm
@@ -183,6 +189,7 @@ body:
           subject:
             reference: "Patient/{{ %patientId }}"
             display: "{{ %patientName }}"
+          effectiveDateTime: "{{ now() }}"
           valueQuantity:
             value: "{{ %weight.value }}"
             unit: kg
@@ -204,6 +211,7 @@ body:
           subject:
             reference: "Patient/{{ %patientId }}"
             display: "{{ %patientName }}"
+          effectiveDateTime: "{{ now() }}"
           valueQuantity:
             value: "{{ %bmi }}"
             unit: "kg/m2"
