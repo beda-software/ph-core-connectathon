@@ -30,36 +30,48 @@ body:
           resourceType: Immunization
           patient: "{{ %patientRef }}"
           status: "{{ %status.code }}"
-          performer:
-            - actor: "{{ %performer }}"
-              function:
-                coding:
-                  - "{{ %performerFunction }}"
+          "{% if %performer.exists() %}":
+            performer:
+              - actor: "{{ %performer }}"
+                "{% if %performerFunction.exists() %}":
+                  function:
+                    coding:
+                      - "{{ %performerFunction }}"
           vaccineCode:
             coding:
               - "{{ %vaccineCode }}"
+            text: "{{ %vaccineCode.display }}"
           doseQuantity: "{{ %doseQuantity }}"
           encounter: "{{ %encounterRef }}"
-          expirationDate: "{{ %expirationDate }}"
-          fundingSource:
-            coding:
-              - "{{ %fundingSource }}"
-          isSubpotent:
-            "{% if %isSubpotent.code = 'yes' %}": true
-            "{% else %}": false
-          lotNumber: "{{ %lotNumber }}"
           occurrenceDateTime: "{{ %occurrenceDate }}"
-          primarySource:
-            "{% if %primarySource.code = 'yes' %}": true
-            "{% else %}": false
-          route:
-            coding:
-              - "{{ %route }}"
-          site:
-            coding:
-              - "{{ %site }}"
-          note:
-            - text: "{{ %note }}"
+          "{% merge %}":
+            - "{% if %expirationDate.exists() %}":
+                expirationDate: "{{ %expirationDate }}"
+            - "{% if %fundingSource.exists() %}":
+                fundingSource:
+                  coding:
+                    - "{{ %fundingSource }}"
+            - "{% if %isSubpotent.exists() %}":
+                isSubpotent:
+                  "{% if %isSubpotent.code = 'yes' %}": true
+                  "{% else %}": false
+            - "{% if %lotNumber.exists() %}":
+                lotNumber: "{{ %lotNumber }}"
+            - "{% if %primarySource.exists() %}":
+                primarySource:
+                  "{% if %primarySource.code = 'yes' %}": true
+                  "{% else %}": false
+            - "{% if %route.exists() %}":
+                route:
+                  coding:
+                    - "{{ %route }}"
+            - "{% if %site.exists() %}":
+                site:
+                  coding:
+                    - "{{ %site }}"
+            - "{% if %note.exists() %}":
+                note:
+                  - text: "{{ %note }}"
   resourceType: Bundle
   type: transaction
   entry:
