@@ -33,25 +33,39 @@ item:
   - text: Email
     type: string
     linkId: email
-  - item:
-      - text: Address Line
-        type: string
-        linkId: address-line
-      - text: City
-        type: string
-        linkId: address-city
-      - text: State
-        type: string
-        linkId: address-state
-      - text: Postal Code
-        type: string
-        linkId: address-postal-code
-      - text: Country
-        type: string
-        linkId: address-country
+
+  - text: Add address
+    type: boolean
+    linkId: add-address
+  - type: group
     text: Address
-    type: group
     linkId: address-group
+    enableWhen:
+      - answerBoolean: true
+        operator: "="
+        question: add-address
+    item:
+      - text: Address use
+        type: choice
+        linkId: address-use
+        required: true
+        answerValueSet: http://hl7.org/fhir/ValueSet/address-use
+      - text: Region
+        type: choice
+        linkId: address-region
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/regions
+      - text: Province
+        type: choice
+        linkId: address-province
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/provinces
+      - text: City Municipality
+        type: choice
+        linkId: address-city-municipality
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/cities
+      - text: Barangay
+        type: choice
+        linkId: address-barangay
+        answerValueSet: urn://example.com/ph-core/fhir/ValueSet/barangays
 resourceType: Questionnaire
 title: Practitioner create PH
 extension:

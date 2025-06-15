@@ -9,40 +9,58 @@ body:
     - birthDate: "{{ %QuestionnaireResponse.answers('birth-date') }}"
     - phone: "{{ %QuestionnaireResponse.answers('phone') }}"
     - email: "{{ %QuestionnaireResponse.answers('email') }}"
-    - addressLine: "{{ %QuestionnaireResponse.answers('address-line') }}"
-    - addressCity: "{{ %QuestionnaireResponse.answers('address-city') }}"
-    - addressState: "{{ %QuestionnaireResponse.answers('address-state') }}"
-    - addressPostalCode: "{{ %QuestionnaireResponse.answers('address-postal-code') }}"
-    - addressCountry: "{{ %QuestionnaireResponse.answers('address-country') }}"
+    - addAddress: "{{ %QuestionnaireResponse.answers('add-address') }}"
+    - addressUse: "{{ %QuestionnaireResponse.answers('address-use') }}"
+    - addressRegion: "{{ %QuestionnaireResponse.answers('address-region') }}"
+    - province: "{{ %QuestionnaireResponse.answers('address-province') }}"
+    - cityMunicipality: "{{ %QuestionnaireResponse.answers('address-city-municipality') }}"
+    - barangay: "{{ %QuestionnaireResponse.answers('address-barangay') }}"
 
   resourceType: Bundle
   type: transaction
   entry:
-    - request:
-        method: POST
-        url: /Practitioner
-      fullUrl: "urn:practitioner"
-      resource:
-        resourceType: Practitioner
-        name:
-          - given:
-              - "{{ %firstName }}"
-            family: "{{ %lastName }}"
-        gender: "{{ %gender.code }}"
-        birthDate: "{{ %birthDate }}"
-        telecom:
-          - "{% if %phone.exists() %}":
-              - system: phone
-                value: "{{ %phone }}"
-                use: mobile
-          - "{% if %email.exists() %}":
-              - system: email
-                value: "{{ %email }}"
-                use: work
-        address:
-          - line:
-              - "{{ %addressLine }}"
-            city: "{{ %addressCity }}"
-            state: "{{ %addressState }}"
-            postalCode: "{{ %addressPostalCode }}"
-            country: "{{ %addressCountry }}"
+    - "{% if %gender.exists() or %birthDate.exists() or %phone.exists() or %email.exists() or %firstName.exists() or %lastName.exists() or %addAddress %}":
+        request:
+          method: POST
+          url: /Practitioner
+        resource:
+          resourceType: Practitioner
+          gender: "{{ %gender.code }}"
+          birthDate: "{{ %birthDate }}"
+          "{% merge %}":
+            - "{% if %phone.exists() or %email.exists() %}":
+                telecom:
+                  - "{% if %phone.exists() %}":
+                      system: phone
+                      value: "{{ %phone }}"
+                      use: mobile
+                  - "{% if %email.exists() %}":
+                      system: email
+                      value: "{{ %email }}"
+                      use: work
+            - "{% if %firstName.exists() or %lastName.exists() %}":
+                name:
+                  - "{% if %firstName.exists() %}":
+                      given:
+                        - "{{ %firstName }}"
+                    family: "{{ %lastName }}"
+          "{% if %addAddress %}":
+            address:
+              - use: "{{ %addressUse.code }}"
+                "{% if %addressRegion.exists() or %province.exists() or %cityMunicipality.exists() or %barangay.exists() %}":
+                  extension:
+                    - "{% if %addressRegion.exists() %}":
+                        - url: urn://example.com/ph-core/fhir/StructureDefinition/region
+                          valueCoding: "{{ %addressRegion }}"
+
+                    - "{% if %province.exists() %}":
+                        - url: urn://example.com/ph-core/fhir/StructureDefinition/province
+                          valueCoding: "{{ %province }}"
+
+                    - "{% if %cityMunicipality.exists() %}":
+                        - url: urn://example.com/ph-core/fhir/StructureDefinition/city-municipality
+                          valueCoding: "{{ %cityMunicipality }}"
+
+                    - "{% if %barangay.exists() %}":
+                        - url: urn://example.com/ph-core/fhir/StructureDefinition/barangay
+                          valueCoding: "{{ %barangay }}"

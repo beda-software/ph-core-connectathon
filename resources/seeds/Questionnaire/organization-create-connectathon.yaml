@@ -12,10 +12,10 @@ item:
     type: string
     required: true
     linkId: doh-fhud-code
+
   - text: Add address
     type: boolean
     linkId: add-address
-
   - type: group
     text: Address
     linkId: address-group
