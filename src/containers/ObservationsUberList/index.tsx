@@ -84,7 +84,6 @@ export function ObservationsUberList() {
                     icon: <PlusOutlined />,
                 }),
             ]}
-            getBatchActions={() => [questionnaireAction(<Trans>Finish observation</Trans>, '')]}
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Observation`,

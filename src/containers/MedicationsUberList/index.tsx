@@ -19,13 +19,11 @@ export function MedicationsUberList() {
                     },
                 },
             ]}
-            getRecordActions={(record) => [navigationAction('Open', `/`)]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Create medication</Trans>, 'medication-create-connectathon', {
                     icon: <PlusOutlined />,
                 }),
             ]}
-            getBatchActions={() => [questionnaireAction(<Trans>Finish Medication</Trans>, '')]}
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Medication`,

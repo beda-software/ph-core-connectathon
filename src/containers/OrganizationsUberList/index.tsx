@@ -32,18 +32,10 @@ export function OrganizationsUberList() {
                     placement: ['search-bar', 'table'],
                 },
             ]}
-            getRecordActions={(record) => [
-                navigationAction('Open', `/organizations/${record.resource.id}`),
-                questionnaireAction('Edit', 'organization-edit'),
-                customAction(<S.LinkButton type="link">Custom action</S.LinkButton>),
-            ]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Add organization</Trans>, 'organization-create-connectathon', {
                     icon: <PlusOutlined />,
                 }),
-            ]}
-            getBatchActions={() => [
-                questionnaireAction(<Trans>Delete organization</Trans>, 'organization-batch-delete'),
             ]}
             getReportColumns={(bundle) => [
                 {
