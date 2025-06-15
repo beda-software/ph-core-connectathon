@@ -17,7 +17,7 @@ import '@beda.software/emr/dist/style.css';
 // Use you https://github.com/beda-software/fhir-emr/blob/master/src/theme/ThemeProvider.tsx as example
 import { Route } from 'react-router-dom';
 
-import { App, EncounterList, PractitionerList } from '@beda.software/emr/containers';
+import { App } from '@beda.software/emr/containers';
 import { ValueSetExpandProvider } from '@beda.software/emr/contexts';
 import { MenuLayout } from '@beda.software/emr/dist/components/BaseLayout/Sidebar/SidebarTop/context';
 import { PatientDashboardProvider } from '@beda.software/emr/dist/components/Dashboard/contexts';
