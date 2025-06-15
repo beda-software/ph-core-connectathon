@@ -37,7 +37,6 @@ item:
   - text: Encounter
     type: reference
     linkId: encounter
-    required: true
     extension:
       - url: >-
           http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn

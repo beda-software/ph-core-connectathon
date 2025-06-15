@@ -17,11 +17,14 @@ body:
         url: /Procedure
       resource:
         resourceType: Procedure
-        subject:
-          reference: "{{ %patient.reference }}"
         status: "{{ %status.code }}"
-        code:
-          coding:
-            - "{{ %code }}"
-        encounter:
-          reference: "Encounter/{{ %encounterId }}"
+        "{% merge %}":
+          - "{% if %patient.exists() %}":
+              subject: "{{ %patient }}"
+          - "{% if %code.exists() %}":
+              code:
+                coding:
+                  - "{{ %code }}"
+          - "{% if %encounter.exists() %}":
+              encounter:
+                reference: "Encounter/{{ %encounterId }}"

@@ -27,25 +27,45 @@ item:
         valueCode: Patient
   - text: Practitioner
     type: reference
-    linkId: practitioner-role
+    linkId: practitioner
     extension:
       - url: >-
           http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
         extension:
           - url: path
             valueString: >-
-              practitioner.resource.name.given.first() + ' ' +
-              practitioner.resource.name.family
+              name.given.first() + ' ' +
+              name.family
           - url: forDisplay
             valueBoolean: true
       - url: >-
           http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
         valueExpression:
           language: application/x-fhir-query
-          expression: PractitionerRole?_assoc=practitioner
+          expression: Practitioner
       - url: >-
           http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
-        valueCode: PractitionerRole
+        valueCode: Practitioner
+  - text: Organization
+    type: reference
+    linkId: organization
+    extension:
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn
+        extension:
+          - url: path
+            valueString: >-
+              name
+          - url: forDisplay
+            valueBoolean: true
+      - url: >-
+          http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
+        valueExpression:
+          language: application/x-fhir-query
+          expression: Organization
+      - url: >-
+          http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
+        valueCode: Organization
   - text: Date
     type: dateTime
     linkId: date

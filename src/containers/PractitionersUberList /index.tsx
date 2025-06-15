@@ -2,11 +2,9 @@ import { PlusOutlined } from '@ant-design/icons';
 import { t, Trans } from '@lingui/macro';
 import { Practitioner } from 'fhir/r4b';
 
-import { customAction, questionnaireAction, navigationAction, ResourceListPage } from '@beda.software/emr/components';
+import { questionnaireAction, ResourceListPage } from '@beda.software/emr/components';
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
 import { renderHumanName } from '@beda.software/emr/utils';
-
-import { S } from './styles';
 
 export function PractitionersUberList() {
     return (

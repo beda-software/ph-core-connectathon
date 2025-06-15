@@ -4,7 +4,8 @@ resourceType: Mapping
 body:
   "{% assign %}":
     - patientRef: "{{ %QuestionnaireResponse.answers('patient') }}"
-    - practitionerRoleRef: "{{ %QuestionnaireResponse.answers('practitioner-role') }}"
+    - practitionerRef: "{{ %QuestionnaireResponse.answers('practitioner') }}"
+    - organizationRef: "{{ %QuestionnaireResponse.answers('organization') }}"
     - date: "{{ %QuestionnaireResponse.answers('date') }}"
     - status: "{{ %QuestionnaireResponse.answers('status') }}"
     - class: "{{ %QuestionnaireResponse.answers('class') }}"
@@ -22,9 +23,13 @@ body:
         resourceType: Encounter
         status: "{{ %status.code }}"
         class: "{{ %class }}"
-        subject: "{{ %patientRef }}"
-        "{% if %practitionerRoleRef %}":
-          participant:
-            - individual: "{{ %practitionerRoleRef }}"
+        "{% merge %}":
+          - "{% if %patientRef.exists() %}":
+              subject: "{{ %patientRef }}"
+          - "{% if %practitionerRef.exists() %}":
+              participant:
+                - individual: "{{ %practitionerRef }}"
+          - "{% if %organizationRef.exists() %}":
+              serviceProvider: "{{ %organizationRef }}"
         period:
           start: "{{ %date }}"
