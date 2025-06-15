@@ -12,25 +12,25 @@ export function ProceduresUberList() {
             resourceType="Procedure"
             getTableColumns={() => [
                 {
-                    title: 'Patients',
-
-                    render: (_text: any, { resource }) => {
-                        return resource.subject.display;
-                    },
-                },
-                {
-                    title: 'Procedure',
-
-                    render: (_text: any, { resource }) => {
-                        return resource.code?.coding?.[0]?.display;
-                    },
-                },
-                {
                     title: 'Status',
                     dataIndex: 'status',
                     key: 'status',
                     render: (_text: any, { resource }) => {
                         return resource.status;
+                    },
+                },
+                {
+                    title: 'Code',
+                    key: 'code',
+                    render: (_text: any, { resource }) => {
+                        return resource.code?.text ?? resource.code?.coding?.[0]?.display;
+                    },
+                },
+                {
+                    title: 'Patient',
+                    key: 'patient',
+                    render: (_text: any, { resource }) => {
+                        return resource.subject.display ?? resource.subject.reference;
                     },
                 },
             ]}
