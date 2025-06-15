@@ -37,53 +37,80 @@ body:
             - given:
                 - "{{ %firstName }}"
               family: "{{ %lastName }}"
-          gender: "{{ %gender.code }}"
-          birthDate: "{{ %birthDate }}"
-          identifier:
-            - system: "urn://example.com/ph-core/fhir/NamingSystem/philhealth-id-ns"
-              value: "{{ %philhealthId }}"
-          address:
-            - line:
-                - "{{ %addressLine }}"
-              extension:
-                - url: "urn://example.com/ph-core/fhir/StructureDefinition/region"
-                  valueCoding: "{{ %addressRegion }}"
-                - url: "urn://example.com/ph-core/fhir/StructureDefinition/province"
-                  valueCoding: "{{ %addressProvince }}"
-                - url: "urn://example.com/ph-core/fhir/StructureDefinition/city-municipality"
-                  valueCoding: "{{ %addressCityMunicipality }}"
-              city: "{{ %addressCity }}"
-              district: "{{ %addressDistrict }}"
-              postalCode: "{{ %addressPostalCode }}"
-              country: "{{ %addressCountry.code }}"
+          "{% merge %}":
+            - "{% if %gender.exists() %}":
+                gender: "{{ %gender.code }}"
+            - "{% if %birthDate.exists() %}":
+                birthDate: "{{ %birthDate }}"
+            - "{% if %philhealthId.exists() %}":
+                identifier:
+                  - system: "urn://example.com/ph-core/fhir/NamingSystem/philhealth-id-ns"
+                    value: "{{ %philhealthId }}"
+            - "{% if %addressLine.exists() or %addressRegion.exists() or %addressProvince.exists() or %addressCityMunicipality.exists() or %addressCity.exists() or %addressDistrict.exists() or %addressPostalCode.exists() or %addressCountry.exists() %}":
+                address:
+                  - "{% merge %}":
+                      - "{% if %addressLine.exists() %}":
+                          line:
+                            - "{{ %addressLine }}"
+                      - "{% if %addressRegion.exists() or %addressProvince.exists() or %addressCityMunicipality.exists() %}":
+                          extension:
+                            - "{% if %addressRegion.exists() %}":
+                                url: "urn://example.com/ph-core/fhir/StructureDefinition/region"
+                                valueCoding: "{{ %addressRegion }}"
+                            - "{% if %addressProvince.exists() %}":
+                                url: "urn://example.com/ph-core/fhir/StructureDefinition/province"
+                                valueCoding: "{{ %addressProvince }}"
+                            - "{% if %addressCityMunicipality.exists() %}":
+                                url: "urn://example.com/ph-core/fhir/StructureDefinition/city-municipality"
+                                valueCoding: "{{ %addressCityMunicipality }}"
+                      - "{% if %addressCity.exists() %}":
+                          city: "{{ %addressCity }}"
+                      - "{% if %addressDistrict.exists() %}":
+                          district: "{{ %addressDistrict }}"
+                      - "{% if %addressPostalCode.exists() %}":
+                          postalCode: "{{ %addressPostalCode }}"
+                      - "{% if %addressCountry.exists() %}":
+                          country: "{{ %addressCountry.code }}"
           extension:
             - "{% for nationalityItem in %nationalityGroup %}":
-                - extension:
-                    - url: code
-                      valueCodeableConcept:
-                        coding:
-                          - "{{ %nationalityItem.answers('nationality') }}"
-                    - valuePeriod:
-                        start: "{{ %nationalityItem.answers('nationality-start') }}"
-                        end: "{{ %nationalityItem.answers('nationality-end') }}"
-                      url: period
+                - "{% assign %}":
+                    - nationality: "{{ nationalityItem.answers('nationality') }}"
+                    - nationalityStart: "{{ nationalityItem.answers('nationality-start') }}"
+                    - nationalityEnd: "{{ nationalityItem.answers('nationality-end') }}"
+                  extension:
+                    - "{% if %nationality.exists() %}":
+                        url: code
+                        valueCodeableConcept:
+                          coding:
+                            - "{{ %nationality }}"
+                    - "{% if %nationalityStart.exists() or %nationalityEnd.exists() %}":
+                        valuePeriod:
+                          "{% merge %}":
+                            - "{% if %nationalityStart.exists() %}":
+                                start: "{{ %nationalityStart}}"
+                            - "{% if %nationalityEnd.exists() %}":
+                                end: "{{ %nationalityEnd }}"
+                        url: period
                   url: "http://hl7.org/fhir/StructureDefinition/patient-nationality"
-            - url: "http://hl7.org/fhir/StructureDefinition/patient-religion"
-              valueCodeableConcept:
-                coding:
-                  - "{{ %religion }}"
+            - "{% if %religion.exists() %}":
+                url: "http://hl7.org/fhir/StructureDefinition/patient-religion"
+                valueCodeableConcept:
+                  coding:
+                    - "{{ %religion }}"
             - url: "urn://example.com/ph-core/fhir/StructureDefinition/indigenous-people"
               valueBoolean:
                 "{% if %indigenous.code = 'yes' %}": true
                 "{% else %}": false
-            - url: "urn://example.com/ph-core/fhir/StructureDefinition/indigenous-group"
-              valueCodeableConcept:
-                coding:
-                  - "{{ %indigenousGroup }}"
-            - url: "urn://example.com/ph-core/fhir/StructureDefinition/race"
-              valueCodeableConcept:
-                coding:
-                  - "{{ %race }}"
+            - "{% if %indigenousGroup.exists() %}":
+                url: "urn://example.com/ph-core/fhir/StructureDefinition/indigenous-group"
+                valueCodeableConcept:
+                  coding:
+                    - "{{ %indigenousGroup }}"
+            - "{% if %race.exists() %}":
+                url: "urn://example.com/ph-core/fhir/StructureDefinition/race"
+                valueCodeableConcept:
+                  coding:
+                    - "{{ %race }}"
   resourceType: Bundle
   type: transaction
   entry:

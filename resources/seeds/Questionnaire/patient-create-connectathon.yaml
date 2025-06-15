@@ -8,9 +8,11 @@ item:
   - text: First name
     type: string
     linkId: first-name
+    required: true
   - text: Last name
     type: string
     linkId: last-name
+    required: true
   - text: Gender
     type: choice
     linkId: gender
@@ -35,11 +37,11 @@ item:
   - text: Religion
     type: choice
     linkId: religion
-    required: true
     answerValueSet: http://terminology.hl7.org/ValueSet/v3-ReligiousAffiliation
   - text: Are you Indigenous?
     type: choice
     linkId: indigenous
+    required: true
     extension:
       - url: http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl
         valueCodeableConcept:
@@ -58,7 +60,6 @@ item:
   - text: Indigenous Group
     type: choice
     linkId: indigenous-group
-    required: true
     enableWhen:
       - answerCoding:
           code: "yes"
@@ -68,12 +69,10 @@ item:
   - text: Race
     type: choice
     linkId: race
-    required: true
     answerValueSet: http://terminology.hl7.org/ValueSet/v3-Race
   - text: Marital Status
     type: choice
     linkId: marital-status
-    required: true
     answerValueSet: http://hl7.org/fhir/ValueSet/marital-status
   - text: Philhealth ID
     type: string
