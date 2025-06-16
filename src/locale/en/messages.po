@@ -6,4 +6,157 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
+#: src/containers/OrganizationsUberList/index.tsx:44
+msgid "Add organization"
+msgstr ""
+
+#: src/containers/PatientsUberList/index.tsx:90
+msgid "Add patient"
+msgstr ""
+
+#: src/containers/PractitionersUberList /index.tsx:33
+msgid "Add practitioner"
+msgstr ""
+
+#: src/containers/PatientsUberList/index.tsx:23
+#: src/containers/PatientsUberList/index.tsx:57
+msgid "Birth date"
+msgstr ""
+
+#: src/containers/PatientsUberList/index.tsx:64
+msgid "Choose gender"
+msgstr ""
+
+#: src/containers/EncountersUberList/index.tsx:90
+#: src/containers/ImmunizationsUberList /index.tsx:68
+#: src/containers/ProceduresUberList/index.tsx:42
+msgid "Choose status"
+msgstr ""
+
+#: src/containers/EncountersUberList/index.tsx:113
+msgid "Create encounter"
+msgstr ""
+
+#: src/containers/ImmunizationsUberList /index.tsx:99
+msgid "Create immunization"
+msgstr ""
+
+#: src/containers/MedicationsUberList/index.tsx:31
+msgid "Create medication"
+msgstr ""
+
+#: src/containers/ObservationsUberList/index.tsx:83
+msgid "Create observation"
+msgstr ""
+
+#: src/containers/ProceduresUberList/index.tsx:65
+msgid "Create procedure"
+msgstr ""
+
+#: src/containers/OrganizationsUberList/index.tsx:25
+msgid "Date"
+msgstr ""
+
+#: src/main.tsx:79
+msgid "Encounters"
+msgstr ""
+
+#: src/containers/EncountersUberList/index.tsx:83
+msgid "Find encounter"
+msgstr ""
+
+#: src/containers/OrganizationsUberList/index.tsx:39
+msgid "Find organization"
+msgstr ""
+
+#: src/containers/PatientsUberList/index.tsx:50
+msgid "Find patient"
+msgstr ""
+
+#: src/containers/PractitionersUberList /index.tsx:28
+msgid "Find practitioner"
+msgstr ""
+
+#: src/containers/PatientsUberList/index.tsx:30
+msgid "Gender"
+msgstr ""
+
+#: src/main.tsx:90
+msgid "Immunizations"
+msgstr ""
+
+#: src/main.tsx:92
+msgid "Medications"
+msgstr ""
+
+#: src/containers/OrganizationsUberList/index.tsx:16
+#: src/containers/PatientsUberList/index.tsx:16
+#: src/containers/PractitionersUberList /index.tsx:16
+msgid "Name"
+msgstr ""
+
+#: src/containers/EncountersUberList/index.tsx:119
+msgid "Number of Encounters"
+msgstr ""
+
+#: src/containers/ImmunizationsUberList /index.tsx:105
+msgid "Number of Iimmunizations"
+msgstr ""
+
+#: src/containers/MedicationsUberList/index.tsx:37
+msgid "Number of Medication"
+msgstr ""
+
+#: src/containers/ObservationsUberList/index.tsx:89
+msgid "Number of Observation"
+msgstr ""
+
+#: src/containers/OrganizationsUberList/index.tsx:50
+msgid "Number of Organization"
+msgstr ""
+
+#: src/containers/PatientsUberList/index.tsx:96
+msgid "Number of Patients"
+msgstr ""
+
+#: src/containers/PractitionersUberList /index.tsx:39
+msgid "Number of Practitioner"
+msgstr ""
+
+#: src/containers/ProceduresUberList/index.tsx:71
+msgid "Number of Procedures"
+msgstr ""
+
+#: src/main.tsx:91
+msgid "Observations"
+msgstr ""
+
+#: src/containers/OrganizationsUberList/index.tsx:12
+#: src/main.tsx:86
+msgid "Organizations"
+msgstr ""
+
+#: src/containers/PatientsUberList/index.tsx:12
+#: src/main.tsx:78
+msgid "Patients"
+msgstr ""
+
+#: src/containers/PractitionersUberList /index.tsx:12
+#: src/main.tsx:81
+msgid "Practitioners"
+msgstr ""
+
+#: src/main.tsx:93
+msgid "Procedures"
+msgstr ""
+
+#: src/containers/PatientsUberList/index.tsx:37
+msgid "SSN"
+msgstr ""

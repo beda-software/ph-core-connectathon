@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { t, Trans } from '@lingui/macro';
 import { Encounter, Reference } from 'fhir/r4b';
 
-import { questionnaireAction, navigationAction, ResourceListPage } from '@beda.software/emr/components';
+import { questionnaireAction, ResourceListPage } from '@beda.software/emr/components';
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
 import { compileAsFirst, formatPeriodDateTime } from '@beda.software/emr/utils';
 
