@@ -44,14 +44,14 @@ item:
         extension:
           - url: path
             valueString: >-
-              id
+              class.display + ' - ' + period.start.toString().split('.')[0].split('T')[0] + ' ' + period.start.toString().split('.')[0].split('T')[1]
           - url: forDisplay
             valueBoolean: true
       - url: >-
           http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression
         valueExpression:
           language: application/x-fhir-query
-          expression: Encounter
+          expression: Encounter?patient={{%QuestionnaireResponse.repeat(item).where(linkId='patient').answer.valueReference.reference}}
       - url: >-
           http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
         valueCode: Encounter
