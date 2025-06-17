@@ -34,11 +34,11 @@ export function PatientUberList() {
                     width: 150,
                 },
                 {
-                    title: <Trans>SSN</Trans>,
+                    title: 'PhilHealth ID',
                     dataIndex: 'identifier',
                     key: 'identifier',
                     render: (_text, { resource }) =>
-                        resource.identifier?.find(({ system }) => system === 'http://hl7.org/fhir/sid/us-ssn')?.value,
+                        resource.identifier?.find(({ system }) => system === 'urn://example.com/ph-core/fhir/NamingSystem/philhealth-id-ns')?.value,
                     width: 250,
                 },
             ]}
