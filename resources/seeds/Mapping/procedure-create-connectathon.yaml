@@ -17,6 +17,9 @@ body:
         url: /Procedure
       resource:
         resourceType: Procedure
+        meta:
+          profile:
+          - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-procedure
         status: "{{ %status.code }}"
         subject: "{{ %patient }}"
         "{% merge %}":

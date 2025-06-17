@@ -20,6 +20,9 @@ body:
       url: /Organization
     resource:
       resourceType: Organization
+      meta:
+        profile:
+        - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-organization
       name: "{{ %orgName }}"
       identifier:
         - system: urn://example.com/ph-core/fhir/NamingSystem/doh-fhud-code-ns

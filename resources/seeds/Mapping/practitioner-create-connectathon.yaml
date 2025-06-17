@@ -25,6 +25,9 @@ body:
           url: /Practitioner
         resource:
           resourceType: Practitioner
+          meta:
+            profile:
+            - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-practitioner
           gender: "{{ %gender.code }}"
           birthDate: "{{ %birthDate }}"
           "{% merge %}":

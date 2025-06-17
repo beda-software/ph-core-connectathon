@@ -27,6 +27,9 @@ body:
           url: /Observation
         resource:
           resourceType: Observation
+          meta:
+            profile:
+            - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-observation
           status: final
           code:
             coding:
@@ -49,6 +52,9 @@ body:
           url: /Observation
         resource:
           resourceType: Observation
+          meta:
+            profile:
+            - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-observation
           status: final
           code:
             coding:
@@ -92,6 +98,9 @@ body:
           url: /Observation
         resource:
           resourceType: Observation
+          meta:
+            profile:
+            - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-observation
           status: final
           code:
             coding:
@@ -114,6 +123,9 @@ body:
           url: /Observation
         resource:
           resourceType: Observation
+          meta:
+            profile:
+            - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-observation
           status: final
           code:
             coding:
@@ -136,6 +148,9 @@ body:
           url: /Observation
         resource:
           resourceType: Observation
+          meta:
+            profile:
+            - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-observation
           status: final
           code:
             coding:
@@ -158,6 +173,9 @@ body:
           url: /Observation
         resource:
           resourceType: Observation
+          meta:
+            profile:
+            - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-observation
           status: final
           code:
             coding:
@@ -180,6 +198,9 @@ body:
           url: /Observation
         resource:
           resourceType: Observation
+          meta:
+            profile:
+            - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-observation
           status: final
           code:
             coding:
@@ -202,6 +223,9 @@ body:
           url: /Observation
         resource:
           resourceType: Observation
+          meta:
+            profile:
+            - urn://example.com/ph-core/fhir/StructureDefinition/ph-core-observation
           status: final
           code:
             coding:
