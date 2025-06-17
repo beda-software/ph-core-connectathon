@@ -61,7 +61,7 @@ export function ImmunizationsUberList() {
 
             ]}
             getFilters={() => [
-                {
+               {
                     id: 'status',
                     searchParam: 'status',
                     type: SearchBarColumnType.CHOICE,
@@ -93,6 +93,20 @@ export function ImmunizationsUberList() {
                         },
                     ],
                     placement: ['table', 'search-bar'],
+                },
+                {
+                    id: 'patient',
+                    searchParam: 'patient:Patient.name',
+                    type: SearchBarColumnType.STRING,
+                    placeholder: 'Find by patient',
+                    placement: ['search-bar', 'table'],
+                },
+                {
+                    id: 'practitioner',
+                    searchParam: 'performer:Practitioner.name',
+                    type: SearchBarColumnType.STRING,
+                    placeholder: 'Find by performer',
+                    placement: ['search-bar', 'table'],
                 },
             ]}
             getHeaderActions={() => [

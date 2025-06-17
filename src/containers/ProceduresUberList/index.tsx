@@ -60,6 +60,24 @@ export function ProceduresUberList() {
                     ],
                     placement: ['table', 'search-bar'],
                 },
+                {
+                    id: 'patient',
+                    searchParam: 'patient:Patient.name',
+                    type: SearchBarColumnType.STRING,
+                    placeholder: 'Find by patient',
+                    placement: ['search-bar', 'table'],
+                },
+                {
+                    id: 'encounter',
+                    searchParam: 'encounter',
+                    type: SearchBarColumnType.REFERENCE,
+                    placeholder: 'Find by encounter',
+                    expression: 'Encounter',
+                    path: `class.display +' - '+
+period.start.toString().split('.')[0].split('T')[0] + ' ' +
+period.start.toString().split('.')[0].split('T')[1]`,
+                    placement: ['search-bar', 'table'],
+                },
             ]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Create procedure</Trans>, 'procedure-create-connectathon', {
