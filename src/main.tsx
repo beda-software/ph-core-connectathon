@@ -46,6 +46,8 @@ import { PractitionersUberList } from './containers/PractitionersUberList ';
 import { ProceduresUberList } from './containers/ProceduresUberList';
 import { dynamicActivate, getCurrentLocale } from './services/i18n';
 import { PatientDetails } from './containers/PatientsUberList/detail';
+import { SignIn } from './containers/SignIn';
+
 
 async function expandEMRValueSet(answerValueSet: string | undefined, searchText: string): Promise<Coding[]> {
     if (!answerValueSet) {
@@ -99,6 +101,11 @@ export const AppWithContext = () => {
                             }
                         >
                             <App
+                                anonymousRoutes={
+                                    <>
+                                        <Route path="/signin" element={<SignIn />} />
+                                    </>
+                                }
                                 authenticatedRoutes={
                                     <>
                                         <Route path="/patients-ph" element={<PatientUberList />} />
