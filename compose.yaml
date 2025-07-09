@@ -11,7 +11,7 @@ services:
       - ./env/sdc
     tty: true
   devbox:
-    image: healthsamurai/aidboxone:stable
+    image: healthsamurai/aidboxone:edge
     depends_on:
       - devbox-db
     links:
