@@ -34,6 +34,7 @@ export function NewQuestionnaire() {
     return (
         <S.Container>
             <S.Content>
+                {/* @ts-ignore */}
                 <aidbox-form-builder
                     ref={builder}
                     form-id={id}
