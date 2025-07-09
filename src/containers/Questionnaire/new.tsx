@@ -1,13 +1,41 @@
 import { S } from '@beda.software/emr/dist/containers/AidboxFormsBuilder/styles';
+import { saveFHIRResource } from '@beda.software/emr/services';
+import { Questionnaire } from 'fhir/r4b';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { isSuccess } from '@beda.software/remote-data';
+
+const profile = "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire";
 
 export function NewQuestionnaire() {
-    const { id } = useParams();
-    /* const [id, setId] = useState<string|undefined>(); */
+    const params = useParams();
+    const [id, setId] = useState<string | undefined>(params.id);
+    const builder = useRef<any>(null);
+    useEffect(() => {
+        if(builder.current){
+            builder.current.addEventListener('save', async (event:any) => {
+                const q:Questionnaire = event.detail;
+                if(typeof q.meta === 'undefined'){
+                    q.meta = {}
+                }
+                q.meta.profile = [ profile ];
+                q.subjectType = [
+                    "Patient"
+                ];
+                const response = await saveFHIRResource<Questionnaire>(q);
+                console.log(response);
+                if(isSuccess(response)){
+                    setId(response.data.id)
+                }
+            });
+        }
+    }, [builder])
+
     return (
         <S.Container>
             <S.Content>
                 <aidbox-form-builder
+                    ref={builder}
                     form-id={id}
                     style={{
                         height: '100%',
