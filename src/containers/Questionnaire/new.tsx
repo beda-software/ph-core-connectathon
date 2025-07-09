@@ -4,6 +4,7 @@ import { Questionnaire } from 'fhir/r4b';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { isSuccess } from '@beda.software/remote-data';
+import config from '@beda.software/emr-config';
 
 const profile = "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire";
 
@@ -34,8 +35,7 @@ export function NewQuestionnaire() {
                     ...init.headers,
                     ...(authorization ? { Authorization: authorization.toString() } : {}),
                 };
-                console.log(init.headers)
-                return fetch(url, init);
+                return fetch(config.baseURL + url, init);
             };
         }
     }, [builder])
