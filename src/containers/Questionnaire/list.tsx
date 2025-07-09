@@ -27,7 +27,7 @@ export function QuestionnaireList() {
                 navigationAction("Create new Questionnaire", './aidbox-forms-builder/new')
             ]}
             getRecordActions={({ resource }) => [
-                navigationAction("Edit", `/questionnaires/${resource.id}/aidbox-forms-builder/edit`)
+                navigationAction("Edit", `./aidbox-forms-builder/${resource.id}/edit`)
             ]}
             getFilters={() => [
                 {
