@@ -109,7 +109,7 @@ export const AppWithContext = () => {
                                 authenticatedRoutes={
                                     <>
                                         <Route path="/patients-ph" element={<PatientUberList />} />
-                                        <Route path="/patients-ph/:id" element={<PatientDetails />} />
+                                        <Route path="/patients-ph/:id/*" element={<PatientDetails />} />
                                         <Route path="/encounters-ph" element={<EncountersUberList />} />
                                         <Route path="/practitioners-ph" element={<PractitionersUberList />} />
                                         <Route path="/organizations-ph" element={<OrganizationsUberList />} />
