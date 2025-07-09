@@ -46,6 +46,8 @@ import { PractitionersUberList } from './containers/PractitionersUberList ';
 import { ProceduresUberList } from './containers/ProceduresUberList';
 import { dynamicActivate, getCurrentLocale } from './services/i18n';
 import { PatientDetails } from './containers/PatientsUberList/detail';
+import { QuestionnaireList } from "./containers/Questionnaire/list";
+import { NewQuestionnaire } from "./containers/Questionnaire/new";
 import { SignIn } from './containers/SignIn';
 
 
@@ -93,6 +95,7 @@ export const AppWithContext = () => {
                                         { label: t`Observations`, path: '/observations-ph', icon: <ServicesIcon /> },
                                         { label: t`Medications`, path: '/medications-ph', icon: <MedicationsIcon /> },
                                         { label: t`Procedures`, path: '/procedures-ph', icon: <ServicesIcon /> },
+                                        { label: t`Questionnaire`, path: '/questionnaires-ph', icon: <ServicesIcon /> },
                                     ],
                                     [Role.Practitioner]: () => [],
                                     [Role.Patient]: () => [],
@@ -117,6 +120,8 @@ export const AppWithContext = () => {
                                         <Route path="/immunizations-ph" element={<ImmunizationsUberList />} />
                                         <Route path="/observations-ph" element={<ObservationsUberList />} />
                                         <Route path="/medications-ph" element={<MedicationsUberList />} />
+                                        <Route path="/questionnaires-ph" element={<QuestionnaireList />} />
+                                        <Route path="/questionnaires-ph/aidbox-forms-builder/new" element={<NewQuestionnaire />} />
                                     </>
                                 }
                             />
