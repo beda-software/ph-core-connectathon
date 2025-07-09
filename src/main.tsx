@@ -122,6 +122,7 @@ export const AppWithContext = () => {
                                         <Route path="/medications-ph" element={<MedicationsUberList />} />
                                         <Route path="/questionnaires-ph" element={<QuestionnaireList />} />
                                         <Route path="/questionnaires-ph/aidbox-forms-builder/new" element={<NewQuestionnaire />} />
+                                        <Route path="/questionnaires-ph/aidbox-forms-builder/:id/edit" element={<NewQuestionnaire />} />
                                     </>
                                 }
                             />
