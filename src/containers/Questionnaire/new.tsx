@@ -1,5 +1,5 @@
 import { S } from '@beda.software/emr/dist/containers/AidboxFormsBuilder/styles';
-import { saveFHIRResource } from '@beda.software/emr/services';
+import { axiosInstance, saveFHIRResource } from '@beda.software/emr/services';
 import { Questionnaire } from 'fhir/r4b';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -12,22 +12,31 @@ export function NewQuestionnaire() {
     const [id, setId] = useState<string | undefined>(params.id);
     const builder = useRef<any>(null);
     useEffect(() => {
-        if(builder.current){
-            builder.current.addEventListener('save', async (event:any) => {
-                const q:Questionnaire = event.detail;
-                if(typeof q.meta === 'undefined'){
+        if (builder.current) {
+            builder.current.addEventListener('save', async (event: any) => {
+                const q: Questionnaire = event.detail;
+                if (typeof q.meta === 'undefined') {
                     q.meta = {}
                 }
-                q.meta.profile = [ profile ];
+                q.meta.profile = [profile];
                 q.subjectType = [
                     "Patient"
                 ];
                 const response = await saveFHIRResource<Questionnaire>(q);
                 console.log(response);
-                if(isSuccess(response)){
+                if (isSuccess(response)) {
                     setId(response.data.id)
                 }
             });
+            const authorization = axiosInstance.defaults.headers.Authorization;
+            builder.current.onFetch = async (url: string, init: RequestInit) => {
+                init.headers = {
+                    ...init.headers,
+                    ...(authorization ? { Authorization: authorization.toString() } : {}),
+                };
+                console.log(init.headers)
+                return fetch(url, init);
+            };
         }
     }, [builder])
 
