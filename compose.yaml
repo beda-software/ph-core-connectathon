@@ -1,6 +1,6 @@
 services:
   sdc:
-    image: bedasoftware/fhir-sdc:1.0.0a7
+    image: bedasoftware/fhir-sdc:1.0.0a9
     depends_on:
       devbox-healthcheck:
         condition: service_healthy
@@ -41,14 +41,6 @@ services:
       interval: 5s
       timeout: 30s
       retries: 100
-  jute:
-    image: bedasoftware/jute-microservice:latest
-    ports:
-      - "8099:8090"
-  fhirpath_mapping:
-    image: bedasoftware/fhirpath-extract:main
-    ports:
-      - "8091:8090"
   build-seeds:
     image: bedasoftware/fhirsnake:latest
     command:
