@@ -1,6 +1,6 @@
 services:
   sdc:
-    image: bedasoftware/fhir-sdc:1.0.0a9
+    image: bedasoftware/fhir-sdc:1.0.0a10
     depends_on:
       devbox-healthcheck:
         condition: service_healthy
