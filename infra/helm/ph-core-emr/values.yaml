@@ -1,6 +1,6 @@
 sdc:
   image: bedasoftware/fhir-sdc
-  tag: 1.0.0a10
+  tag: 1.0.0a11
 emr:
   image: ghcr.io/beda-software/ph-core-connectathon
   tag: latest
