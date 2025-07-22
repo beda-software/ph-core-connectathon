@@ -1,0 +1,82 @@
+{{- $releaseName := .Release.Name }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sdc
+  labels:
+    app.kubernetes.io/name: sdc
+    chart: {{ template "ph-core-emr.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    app.kubernetes.io/name: sdc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sdc
+  labels:
+    app.kubernetes.io/name: sdc
+    chart: {{ template "ph-core-emr.chart" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sdc
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sdc
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: sdc
+        image: "{{ .Values.sdc.image }}:{{ .Values.sdc.tag }}"
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "20m"
+            memory: "128M"
+          limits:
+            cpu: "50m"
+            memory: "256M"
+        ports:
+        - containerPort: 8081
+        env:
+          - name: APP_INIT_URL
+            value: "{{ .Values.sdc.aidbox_init_url }}"
+          - name: APP_ID
+            value: "sdc"
+          - name: APP_URL
+            value: "http://sdc:8081"
+          - name: APP_INIT_URL
+            value: "http://aidbox:8080"
+          - name: APP_PORT
+            value: "8081"
+          - name: AIO_PORT
+            value: "8081"
+          - name: AIO_HOST
+            value: "0.0.0.0"
+          - name: FHIRPATH_MAPPING_SERVICE
+            value: "http://fhirpath-extract:8090/parse-template"
+          - name: CREATE_MANIFEST_ATTRS
+            value: "False"
+          {{- range $key, $value := .Values.SDCexternalSecretsNames }}
+            {{- if $value.envVar }}
+          - name: {{ $value.envVar }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $releaseName }}-{{ $key }}
+                key: {{ $key }}
+            {{- end }}
+          {{- end }}
