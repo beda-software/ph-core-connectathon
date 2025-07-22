@@ -59,19 +59,17 @@ spec:
             value: "sdc"
           - name: APP_URL
             value: "http://sdc:8081"
-          - name: APP_INIT_URL
-            value: "http://aidbox:8080"
           - name: APP_PORT
             value: "8081"
           - name: AIO_PORT
             value: "8081"
           - name: AIO_HOST
             value: "0.0.0.0"
-          - name: FHIRPATH_MAPPING_SERVICE
-            value: "http://fhirpath-extract:8090/parse-template"
           - name: CREATE_MANIFEST_ATTRS
             value: "False"
-          {{- range $key, $value := .Values.SDCexternalSecretsNames }}
+          - name: CONSTRAINT_LEGACY_BEHAVIOR
+            value: "False"
+          {{- range $key, $value := .Values.sdc.secrets }}
             {{- if $value.envVar }}
           - name: {{ $value.envVar }}
             valueFrom:
