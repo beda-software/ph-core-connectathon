@@ -1,6 +1,13 @@
-sdc:
-  image: bedasoftware/fhir-sdc
-  tag: 1.0.0a11
 emr:
   image: ghcr.io/beda-software/ph-core-connectathon
   tag: latest
+sdc:
+  image: bedasoftware/fhir-sdc
+  tag: 1.0.0a11
+  aidbox_init_url: http://aidbox:8080 #service that expose aidbox
+  secrets:
+# sdc.secrets: https://github.com/beda-software/ph-core-connectathon/blob/main/infra/helm/ph-core-emr/templates/sdc.yaml#L72-L80
+# Here you need to defined a secret(s) that contain the following env vars:
+# - APP_INIT_CLIENT_ID id of aidbox root client, it should have full access to API to be able to register adc aidbox app. 
+# - APP_INIT_CLIENT_SECRET secret for aidbox root client
+# - APP_SECRET any uniq string that will be used to identify requests from the app
