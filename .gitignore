@@ -36,3 +36,4 @@ storybook-static
 
 .env
 resources/seeds/initBundle.json
+infra/helm/sscp.yaml
