@@ -4,7 +4,7 @@ const config = {
     wearablesAccessConsentCodingSystem: 'https://fhir.emr.beda.software/CodeSystem/consent-subject',
 
     tier: 'production',
-    baseURL: 'http://aidbox.fhirlab.net',
+    baseURL: 'https://aidbox.fhirlab.net',
     sdcIdeUrl: 'https://sdc.beda.software',
     aiQuestionnaireBuilderUrl: 'https://builder.emr.beda.software',
 
