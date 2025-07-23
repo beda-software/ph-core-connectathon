@@ -69,6 +69,8 @@ spec:
             value: "False"
           - name: CONSTRAINT_LEGACY_BEHAVIOR
             value: "False"
+          - name: FHIRPATH_MAPPING_SERVICE
+            value: fpml
           {{- range $key, $value := .Values.sdc.secrets }}
             {{- if $value.envVar }}
           - name: {{ $value.envVar }}
