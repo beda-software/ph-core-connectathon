@@ -1,7 +1,7 @@
 import { i18n } from '@lingui/core';
 import { t } from '@lingui/macro';
 import { I18nProvider } from '@lingui/react';
-import { Coding } from 'fhir/r4b';
+import { Coding, Reference } from 'fhir/r4b';
 import React, { useEffect } from 'react';
 // eslint-disable-next-line import/order
 import { createRoot } from 'react-dom/client';
@@ -31,10 +31,10 @@ import {
     MedicationsIcon,
     OrganizationsIcon,
 } from '@beda.software/emr/icons';
-import { expandHealthSamuraiValueSet } from '@beda.software/emr/services';
+import { createFHIRResource, expandHealthSamuraiValueSet, getUserInfo } from '@beda.software/emr/services';
 import { ThemeProvider } from '@beda.software/emr/theme';
 import { matchCurrentUserRole, Role } from '@beda.software/emr/utils';
-import { isSuccess } from '@beda.software/remote-data';
+import { isSuccess, RemoteDataResult, isFailure } from '@beda.software/remote-data';
 
 import { EncountersUberList } from './containers/EncountersUberList';
 import { ImmunizationsUberList } from './containers/ImmunizationsUberList ';
@@ -49,6 +49,9 @@ import { PatientDetails } from './containers/PatientsUberList/detail';
 import { QuestionnaireList } from "./containers/Questionnaire/list";
 import { NewQuestionnaire } from "./containers/Questionnaire/new";
 import { SignIn } from './containers/SignIn';
+import { User } from '@beda.software/aidbox-types';
+import { sharedAuthorizedUser } from '@beda.software/emr/sharedState';
+import { fetchUserRoleDetails } from '@beda.software/emr/dist/containers/App/utils';
 
 
 async function expandEMRValueSet(answerValueSet: string | undefined, searchText: string): Promise<Coding[]> {
@@ -64,6 +67,53 @@ async function expandEMRValueSet(answerValueSet: string | undefined, searchText:
 
     return [];
 }
+
+interface AidboxRole {
+    resourceType: "Role",
+    name: string,
+    user: Reference,
+    links: Record<string,Reference>,
+}
+
+export async function populateUserInfoSharedState(): Promise<RemoteDataResult<User>> {
+    const userResponse = await getUserInfo();
+
+    if (isFailure(userResponse)) {
+        return userResponse;
+    }
+    const user = userResponse.data;
+
+    sharedAuthorizedUser.setSharedState(user);
+
+    if (user.role) {
+        await fetchUserRoleDetails(user);
+    } else {
+        await createFHIRResource<AidboxRole>({
+            resourceType: "Role",
+            name: "admin",
+            user: {
+                reference: `User/${user.id}`,
+            },
+            links: {
+                organization: {
+                    reference: "Organization/beda-emr",
+                }
+            }
+        }, { ".user.id": user.id });
+        const updatedUserResponse = await getUserInfo();
+        if (isFailure(updatedUserResponse)) {
+            return updatedUserResponse;
+        }
+        const updatedUser = updatedUserResponse.data;
+        sharedAuthorizedUser.setSharedState(updatedUser);
+        await fetchUserRoleDetails(updatedUser);
+        return updatedUserResponse;
+    }
+
+    return userResponse;
+}
+
+
 
 export const AppWithContext = () => {
     useEffect(() => {
@@ -104,6 +154,7 @@ export const AppWithContext = () => {
                             }
                         >
                             <App
+                                populateUserInfoSharedState={populateUserInfoSharedState}
                                 anonymousRoutes={
                                     <>
                                         <Route path="/signin" element={<SignIn />} />
