@@ -1,6 +1,6 @@
 import { S } from '@beda.software/emr/dist/containers/AidboxFormsBuilder/styles';
 import { axiosInstance, saveFHIRResource } from '@beda.software/emr/services';
-import { Questionnaire } from 'fhir/r4b';
+import { Parameters, Questionnaire } from 'fhir/r4b';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { isSuccess } from '@beda.software/remote-data';
@@ -34,6 +34,20 @@ export function NewQuestionnaire() {
                     ...init.headers,
                     ...(authorization ? { Authorization: authorization.toString() } : {}),
                 };
+                if ((init as any).tag === 'save-questionnaire' && init.body){
+                    const body:Parameters = JSON.parse(init.body as string);
+                    const q:Questionnaire|undefined = body.parameter!.find(({name}) => name === 'questionnaire')?.resource as any;
+                    if(q){
+                        if (typeof q.meta === 'undefined') {
+                            q.meta = {}
+                        }
+                        q.meta.profile = [profile];
+                        q.subjectType = [
+                            "Patient"
+                        ];
+                        init.body = JSON.stringify(body);
+                    }
+                }
                 return fetch(config.baseURL + url, init);
             };
         }
