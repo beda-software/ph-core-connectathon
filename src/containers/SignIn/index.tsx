@@ -1,4 +1,4 @@
-import { Button, Tooltip } from 'antd';
+import { Button } from 'antd';
 
 import config from '@beda.software/emr-config';
 
