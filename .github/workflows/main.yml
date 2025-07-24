@@ -23,6 +23,8 @@ jobs:
           node-version: 20
       - name: Prepare config
         run: cp contrib/emr-config/config.production.js contrib/emr-config/config.js
+      - name: Prepare index
+        run: cp index.prod.html index.html
       - name: Install deps
         run: yarn install --network-concurrency 1
       - run: yarn extract
