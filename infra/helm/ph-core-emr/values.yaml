@@ -5,6 +5,7 @@ sdc:
   image: bedasoftware/fhir-sdc
   tag: 1.0.0a11
   aidbox_init_url: http://aidbox:8080 #service that expose aidbox
+  app_url: http://sdc:8081
   secrets:
 # sdc.secrets: https://github.com/beda-software/ph-core-connectathon/blob/main/infra/helm/ph-core-emr/templates/sdc.yaml#L72-L80
 # Here you need to defined a secret(s) that contain the following env vars:
