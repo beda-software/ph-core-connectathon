@@ -24,7 +24,6 @@ export function NewQuestionnaire() {
                     "Patient"
                 ];
                 const response = await saveFHIRResource<Questionnaire>(q);
-                console.log(response);
                 if (isSuccess(response)) {
                     setId(response.data.id)
                 }
