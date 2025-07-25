@@ -1,5 +1,3 @@
-subjectType:
-  - Patient
 meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
