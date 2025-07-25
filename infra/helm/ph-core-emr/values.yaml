@@ -15,7 +15,7 @@ converter:
 #     envVar: APP_SECRET # uniq string that will be used to identify requests from the app
 sdc:
   image: bedasoftware/fhir-sdc
-  tag: 1.0.0a11
+  tag: 1.0.0a12
   aidbox_init_url: http://aidbox:8080 # service that expose aidbox
   app_url: http://sdc:8081
   secrets:
