@@ -31,7 +31,7 @@ import {
     MedicationsIcon,
     OrganizationsIcon,
 } from '@beda.software/emr/icons';
-import { createFHIRResource, expandHealthSamuraiValueSet, getUserInfo } from '@beda.software/emr/services';
+import { createFHIRResource, expandExternalTerminology, getUserInfo } from '@beda.software/emr/services';
 import { ThemeProvider } from '@beda.software/emr/theme';
 import { matchCurrentUserRole, Role } from '@beda.software/emr/utils';
 import { isSuccess, RemoteDataResult, isFailure } from '@beda.software/remote-data';
@@ -54,15 +54,20 @@ import { sharedAuthorizedUser } from '@beda.software/emr/sharedState';
 import { fetchUserRoleDetails } from '@beda.software/emr/dist/containers/App/utils';
 
 
-async function expandEMRValueSet(answerValueSet: string | undefined, searchText: string): Promise<Coding[]> {
+async function expandEMRValueSet(
+    answerValueSet: string | undefined,
+    searchText: string,
+    preferredTerminologyServer?: string,
+): Promise<Coding[]> {
     if (!answerValueSet) {
         return [];
     }
 
-    const res = await expandHealthSamuraiValueSet(answerValueSet, searchText);
-
-    if (isSuccess(res)) {
-        return res.data;
+    if (answerValueSet) {
+        const res = await expandExternalTerminology(preferredTerminologyServer ?? 'https://tx.fhirlab.net/fhir', answerValueSet, searchText);
+        if (isSuccess(res)) {
+            return res.data;
+        }
     }
 
     return [];
