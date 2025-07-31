@@ -40,7 +40,7 @@ function Documents({ patient }: { patient: WithId<Patient> }) {
                     <PatientDocument
                         patient={patient}
                         author={author}
-                        autosave={true}
+                        autoSave={true}
                     />
                 }
             />
