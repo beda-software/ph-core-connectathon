@@ -41,6 +41,7 @@ function Documents({ patient }: { patient: WithId<Patient> }) {
                         patient={patient}
                         author={author}
                         autoSave={true}
+                        launchContextParameters={[{name: 'patient', resource: patient}]}
                     />
                 }
             />
